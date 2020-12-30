@@ -9,8 +9,15 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.dashboard_kv.fragment.LoginFragment"
-        android:label="LoginFragment" />
-
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_desktopFragment"
+            app:destination="@id/desktopFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/desktopFragment"
+        android:name="com.example.dashboard_kv.fragment.DesktopFragment"
+        android:label="DesktopFragment" />
 
 
 </navigation>

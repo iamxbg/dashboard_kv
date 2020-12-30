@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_all"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#983A33"
+    android:background="#4CAF50"
     android:orientation="vertical">
-
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:text="LOGIN"
-        />
 
 </LinearLayout>
