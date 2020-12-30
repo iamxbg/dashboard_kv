@@ -18,19 +18,6 @@ class LoginFragment:Fragment(){
 
     private lateinit var tv: TextView;
 
-    /*
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-        view.findViewById<Fragment>( )
-
-        ll = view.findViewById<LinearLayout>(R.id.ll_test)
-
-        tv = view.findViewById(R.id.tv_hello);
-    }*/
-
-
     @SuppressLint("ResourceType")
     override fun onCreateView(
         inflater: LayoutInflater,

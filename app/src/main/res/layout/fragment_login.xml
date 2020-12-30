@@ -10,10 +10,19 @@
     tools:deviceIds="tv"
     tools:ignore="MergeRootFrame">
 
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:name="com.example.dashboard_kv.widget.ActionBar">
+    </fragment>
+
+    <!--
     <LinearLayout
         android:id="@+id/ll_test"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="#53BC57"
         android:orientation="horizontal">
 
@@ -24,5 +33,5 @@
             android:text="Hello Kotlin"/>
 
     </LinearLayout>
-
+    -->
 </FrameLayout>
