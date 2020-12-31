@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/window_background"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/tv_window_title"
+        android:text="工艺文件"/>
+
+    <GridView
+        android:id="@+id/grid_view_task_files"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layoutMode="clipBounds"
+        android:columnWidth="30dp"
+        android:numColumns="6"
+        android:gravity="center"
+        android:verticalSpacing="4dp"
+        android:horizontalSpacing="4dp"
+        android:background="@color/sys_blue">
+
+    </GridView>
+
+</LinearLayout>

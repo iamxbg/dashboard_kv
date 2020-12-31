@@ -5,4 +5,15 @@
     <color name="search_opaque">#ffaa3f</color>
     <color name="selected_background">#ffaa3f</color>
     <color name="default_background">#3d3d3d</color>
+
+    <!-- custom -->
+    <!-- 系统蓝色 -->
+    <color name="sys_blue">#2572AF</color>
+    <color name="sys_white">#EFF2F4</color>
+
+    <color name="window_background">@color/sys_white</color>
+
+
+    <color name="test_black">@color/background_gradient_start</color>
+
 </resources>

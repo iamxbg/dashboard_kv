@@ -10,7 +10,7 @@
         android:id="@+id/action_bar_fragment"
         android:name="com.example.dashboard_kv.widget.ActionBar"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         android:background="#8DC848"
         tools:context=".MainActivity"
         tools:deviceIds="tv"
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#8BC34A"
+        android:background="#131313"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph" />
 

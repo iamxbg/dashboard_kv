@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <!-- 子窗口的标题样式 -->
+        <style name="tv_window_title" parent="android:Widget.TextView">
+            <item name="android:layout_width">match_parent</item>
+            <item name="android:layout_height">30dp</item>
+            <item name="android:background">@color/sys_blue</item>
+            <item name="android:textColor">@color/sys_white</item>
+            <item name="android:gravity">center_vertical</item>
+            <item name="android:letterSpacing">0.5</item>
+            <item name="android:textSize">18dp</item>
+            <item name="android:paddingStart">10dp</item>
+        </style>
+        <!--
+            <style name="fragment_window" parent="android:"></style>
+        -->
+</resources>

@@ -14,12 +14,17 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.example.dashboard_kv.R
 import com.example.dashboard_kv.R.*
+import com.example.dashboard_kv.fragment.module.NotificationFragment
+import com.example.dashboard_kv.fragment.module.ProjectInfoFragment
+import com.example.dashboard_kv.fragment.module.ProjectOrderFragment
 
 
 class LoginFragment:Fragment(){
 
 
-    private lateinit var loginBtn:Button;
+ //   private lateinit var leftPanel:LinearLayout
+    private lateinit var rightTopPanel:LinearLayout
+    private lateinit var rightBottomPanel:LinearLayout
 
     @SuppressLint("ResourceType")
     override fun onCreateView(
@@ -29,13 +34,11 @@ class LoginFragment:Fragment(){
     ): View? {
          super.onCreateView(inflater, container, savedInstanceState)
 
-         val root:ViewGroup = inflater.inflate(R.layout.fragment_login,null) as ViewGroup;
+         val root:ViewGroup = inflater.inflate(R.layout.fragment_login,container,false) as ViewGroup;
 
-        loginBtn =  root.findViewById(R.id.btn_login);
-
-        loginBtn.setOnClickListener({ v->
-            v.findNavController().navigate(R.id.action_loginFragment_to_desktopFragment)
-        })
+        childFragmentManager.beginTransaction().replace(R.id.fragment_left,ProjectInfoFragment()).commit()
+        childFragmentManager.beginTransaction().replace(R.id.fragment_right_top,ProjectOrderFragment()).commit()
+        childFragmentManager.beginTransaction().replace(R.id.fragment_right_bottom,NotificationFragment()).commit()
 
         return root;
 
