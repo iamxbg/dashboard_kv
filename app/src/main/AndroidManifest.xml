@@ -12,6 +12,8 @@
         android:name="android.software.leanback"
         android:required="true" />
 
+    
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -44,6 +46,12 @@
         <!--
         <activity android:name=".BrowseErrorActivity" />
         -->
+
+
+
+        <uses-library android:name="android.test.runner"
+            android:required="false" />
+
     </application>
 
 </manifest>

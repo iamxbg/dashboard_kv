@@ -22,8 +22,9 @@ class WebService :Service() {
 
 
    private val workQueue = LinkedBlockingDeque<Callable<String>>(20)
-   private var executor:ExecutorService = ThreadPoolExecutor(3,10,10,TimeUnit.SECONDS,workQueue)
+  // private var executor:ExecutorService = ThreadPoolExecutor(3,10,10,TimeUnit.SECONDS,workQueue)
 
+    private val  executor:ExecutorService = Executors.newFixedThreadPool(10);
 
 
 
