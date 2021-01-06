@@ -26,7 +26,7 @@ class MakeFilesFragment:Fragment() {
         makeFilesGridView = root.findViewById(R.id.grid_view_task_files);
 
         return root;
-
+        
     }
 
     override fun onStart() {

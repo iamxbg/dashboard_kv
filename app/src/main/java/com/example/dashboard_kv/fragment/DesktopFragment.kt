@@ -34,8 +34,6 @@ class DesktopFragment: Fragment() {
 
        return  super.onCreateView(inflater, container, savedInstanceState);
 
-       //return  inflater.inflate(R.layout.fragment_desktop,container,false);
-
     }
 
 

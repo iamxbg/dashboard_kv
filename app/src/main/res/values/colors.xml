@@ -13,6 +13,7 @@
 
     <color name="window_background">@color/sys_white</color>
 
+    <color name="dev_gray">#8A8D8F</color>
 
     <color name="test_black">@color/background_gradient_start</color>
 

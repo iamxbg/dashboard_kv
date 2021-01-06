@@ -2,22 +2,29 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/loginFragment"
+    app:startDestination="@id/unloginFragment"
     android:id="@+id/nav_graph">
 
 
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.dashboard_kv.fragment.LoginFragment"
-        android:label="LoginFragment" >
+        android:id="@+id/unloginFragment"
+        android:name="com.example.dashboard_kv.fragment.UnloginFragment"
+        android:label="UnloginFragment" >
         <action
-            android:id="@+id/action_loginFragment_to_desktopFragment"
+            android:id="@+id/action_unloginFragment_to_desktopFragment"
             app:destination="@id/desktopFragment" />
+        <action
+            android:id="@+id/action_unloginFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/desktopFragment"
         android:name="com.example.dashboard_kv.fragment.DesktopFragment"
         android:label="DesktopFragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.dashboard_kv.fragment.LoginFragment"
+        android:label="LoginFragment" />
 
 
 </navigation>
