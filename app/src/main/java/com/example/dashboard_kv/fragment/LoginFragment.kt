@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import com.example.dashboard_kv.MainActivity
 import com.example.dashboard_kv.R
 import com.example.dashboard_kv.api.LoginApi
 import com.example.dashboard_kv.api.WebUtil
@@ -40,8 +41,15 @@ class LoginFragment:Fragment() {
     override fun onStart() {
         super.onStart()
 
+        //获取activity中绑定的webService，进行info和captcha请求
 
+        val mainActivity = activity as MainActivity
 
+         val loginMsg :String= mainActivity.webService.loginInfo()
+
+        Log.w("TEST",loginMsg)
+
+        /*
         Thread({
 
             val loginApi = WebUtil.getService(LoginApi::class.java)
@@ -56,6 +64,8 @@ class LoginFragment:Fragment() {
             Log.w("ANOTHER_TAG",captch.toString())
 
         }).start()
+
+         */
 
 
     }

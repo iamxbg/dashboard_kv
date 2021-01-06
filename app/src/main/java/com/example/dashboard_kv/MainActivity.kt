@@ -2,6 +2,7 @@ package com.example.dashboard_kv
 
 import android.app.Activity
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
@@ -30,6 +31,16 @@ class MainActivity : FragmentActivity() {
 
     }
 
+    private val connection = object:ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+
+            webService = service as WebService
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            println("unbound")
+        }
+    }
 
     /**
      * 启动时绑定web服务
@@ -37,22 +48,22 @@ class MainActivity : FragmentActivity() {
     override fun onStart() {
         super.onStart()
 
-        bindService(
-            Intent(this,WebService::class.java),
+        //不能使用this
+        Intent(applicationContext,WebService::class.java)
+            .also {
+                intent ->
+               val success  = bindService(intent,connection, Context.BIND_AUTO_CREATE)
+                println(success)
+            }
 
-        )
-        //webService =
+    }
+
+    override fun onStop() {
+        super.onStop()
+        webService.unbindService(connection)
     }
 
 
-    private val connection = object:ServiceConnection {
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            TODO("Not yet implemented")
-        }
 
-        override fun onServiceDisconnected(name: ComponentName?) {
-            TODO("Not yet implemented")
-        }
-    }
 
 }
