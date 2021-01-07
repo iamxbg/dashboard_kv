@@ -20,7 +20,7 @@ interface LoginApi{
 
     @GET("sockjs-node/info")
     @Headers("Referer:http://192.168.1.11/index")
-    fun info(@Query("t") t:Long):Call<Gson>
+    fun info(@Query("t") t:Long):Call<Map<String,out String>>
 
     @GET("dev-api/captchaImage")
     fun captchaImage():Call<Gson>

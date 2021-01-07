@@ -50,10 +50,11 @@ class WebService :Service() {
 //    }
 
 
-    fun loginInfo():String {
+    fun loginInfo():Map<String,out String> {
 
        val future =  executor.submit(Callable{
-            this.loginApi.info(Date().time).execute().message();
+            //this.loginApi.info(Date().time).execute().message();
+           this.loginApi.info(Date().time).execute().body()
 
         })
 
@@ -62,7 +63,7 @@ class WebService :Service() {
 
         }
 
-        return future.get()
+        return future.get()!!
     }
 
 
