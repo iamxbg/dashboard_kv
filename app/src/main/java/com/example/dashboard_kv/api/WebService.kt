@@ -54,11 +54,12 @@ class WebService :Service() {
 
        val future =  executor.submit(Callable{
             this.loginApi.info(Date().time).execute().message();
+
         })
 
         while (!future.isDone){
             Thread.sleep(100)
-            break;
+
         }
 
         return future.get()
@@ -66,12 +67,13 @@ class WebService :Service() {
 
 
     inner class WebBinder: Binder(){
-        fun getLoginService() :WebService {
+        fun getService() :WebService {
             return this@WebService;
         }
     }
 
     override fun onBind(intent: Intent?): IBinder? {
+        loginApi = WebUtil.getService(LoginApi::class.java)
         return binder;
     }
 

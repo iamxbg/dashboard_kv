@@ -34,7 +34,9 @@ class MainActivity : FragmentActivity() {
     private val connection = object:ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
 
-            webService = service as WebService
+            val binder = service as WebService.WebBinder
+
+                webService = binder.getService();
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {

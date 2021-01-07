@@ -30,7 +30,7 @@ class LoginFragment:Fragment() {
         et_password = rootView.findViewById(R.id.et_password)
 
         //??? 为何是哦那个requiredContext替换context!!
-        SoftKeyboardUtil.hideSoftKeyboard(requireContext(), listOf(et_username,et_password))
+        //SoftKeyboardUtil.hideSoftKeyboard(requireContext(), listOf(et_username,et_password))
 
 
 
@@ -48,6 +48,8 @@ class LoginFragment:Fragment() {
          val loginMsg :String= mainActivity.webService.loginInfo()
 
         Log.w("TEST",loginMsg)
+
+
 
         /*
         Thread({
