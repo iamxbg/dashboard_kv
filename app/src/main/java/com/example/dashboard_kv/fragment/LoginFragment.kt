@@ -13,13 +13,17 @@ import android.widget.EditText
 import android.widget.ImageButton
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import com.example.dashboard_kv.MainActivity
 import com.example.dashboard_kv.R
+import com.example.dashboard_kv.api.LoginApi
 import java.util.*
 
 class LoginFragment:Fragment() {
 
     lateinit var et_username:EditText;
     lateinit var et_password:EditText;
+
+    lateinit var loginApi:LoginApi
 
     /**
      * captcha button
@@ -37,15 +41,12 @@ class LoginFragment:Fragment() {
         et_password = rootView.findViewById(R.id.et_password)
         ib_captcha = rootView.findViewById(R.id.ib_captcha)
 
-
         val bitmapDrawable = testLoadCaptcha(base64Str);
 
         ib_captcha.setImageBitmap(bitmapDrawable.bitmap)
 
         //??? 为何是哦那个requiredContext替换context!!
         //SoftKeyboardUtil.hideSoftKeyboard(requireContext(), listOf(et_username,et_password))
-
-
 
         return rootView;
     }
@@ -66,37 +67,7 @@ class LoginFragment:Fragment() {
     override fun onStart() {
         super.onStart()
 
-        //获取activity中绑定的webService，进行info和captcha请求
-
-        //throw exception!
-//        val mainActivity = activity as MainActivity
-//
-//         val loginMsg = mainActivity.webService.loginInfo()
-//
-//       for(k in loginMsg.keys){
-//           Log.w("key:",k)
-//       }
-
-
-
-        /*
-        Thread({
-
-            val loginApi = WebUtil.getService(LoginApi::class.java)
-
-            val resp  = loginApi.info(Date().time).execute().message()
-
-            val captch = loginApi.captchaImage().execute().message();
-
-            val respStr =  resp.toString()
-            Log.w("SOMETAG",respStr)
-
-            Log.w("ANOTHER_TAG",captch.toString())
-
-        }).start()
-
-         */
-
+        loginApi = (activity as MainActivity).webService.getApi(LoginApi::class.java);
 
     }
 }

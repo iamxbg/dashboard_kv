@@ -4,7 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import retrofit2.Call
-import retrofit2.Response
+import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.http.*
 import java.security.KeyFactory
@@ -12,7 +12,7 @@ import java.security.spec.X509EncodedKeySpec
 import java.util.*
 import javax.crypto.Cipher
 
-interface LoginApi{
+interface LoginApi : WebApi {
 
 
     @POST("login")
@@ -20,31 +20,26 @@ interface LoginApi{
 
     @GET("sockjs-node/info")
     @Headers("Referer:http://192.168.1.11/index")
-    fun info(@Query("t") t:Long):Call<Map<String,out String>>
+    fun info(@Query("t") t:Long):Call<Map<String,Object>>;
 
     @GET("dev-api/captchaImage")
-    fun captchaImage():Call<Gson>
+    fun captchaImage():Call<Map<String,Object>>
 
+    @GET("/")
+    fun loginIndex():Call<retrofit2.Response<Any>>;
 }
 
 
-data class InfoResponse(var msg:String) {
+    /**
+     * 请求实体类
+     */
+    data class LoginBody(public val code:String,
+                         public val fingerprint:String,
+                         public val password:String,
+                         public val username:String,
+                         public val uuid:String) {
 
-
-}
-
-
-/**
- * 请求实体类
- */
-class LoginBody(public val code:String,
-                public val fingerprint:String,
-                public val password:String,
-                public val username:String,
-                public val uuid:String) {
-
-
-}
+    }
 
 
 class LoginService() {
@@ -67,7 +62,7 @@ class LoginService() {
 
      fun info(timestamp:Long): Unit {
         val loginApi = WebUtil.getService(LoginApi::class.java)
-        println(loginApi.info(timestamp).execute().message())
+        //println(loginApi.info(timestamp).execute().message())
     }
 
 
@@ -75,7 +70,7 @@ class LoginService() {
 
         //val loginApi = WebUtil.getService(LoginApi::class.java)
 
-        print(loginApi.captchaImage().execute().body())
+        //print(loginApi.captchaImage().execute().body())
     }
 
 
@@ -101,6 +96,10 @@ class LoginService() {
 
 
 }
+
+
+
+
 
 
 

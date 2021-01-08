@@ -7,6 +7,7 @@ import android.os.Binder
 import android.os.IBinder
 import com.google.gson.Gson
 import retrofit2.Call
+import retrofit2.http.Query
 import java.util.Date
 import java.util.concurrent.*
 
@@ -20,14 +21,16 @@ class WebService :Service() {
 
     private val binder:WebBinder = WebBinder()
 
-
-   private val workQueue = LinkedBlockingDeque<Callable<String>>(20)
-  // private var executor:ExecutorService = ThreadPoolExecutor(3,10,10,TimeUnit.SECONDS,workQueue)
-
+    private val workQueue = LinkedBlockingDeque<Callable<String>>(20)
     private val  executor:ExecutorService = Executors.newFixedThreadPool(10);
 
 
+    companion object  {
 
+        val serviceMap = HashMap<String,WebApi>()
+
+
+    }
 
     /**
      * 显示请求服务
@@ -35,35 +38,18 @@ class WebService :Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
          super.onStartCommand(intent, flags, startId)
 
-         loginApi = WebUtil.getService(LoginApi::class.java)
-
         //这个参数是否正确???
         return Service.START_STICKY
 
     }
 
-    /**
-     * 绑定请求服务
-     */
-//    override fun bindService(service: Intent?, conn: ServiceConnection, flags: Int): Boolean {
-//        return super.bindService(service, conn, flags)
-//    }
 
-
-    fun loginInfo():Map<String,out String> {
-
-       val future =  executor.submit(Callable{
-            //this.loginApi.info(Date().time).execute().message();
-           this.loginApi.info(Date().time).execute().body()
-
-        })
-
-        while (!future.isDone){
-            Thread.sleep(100)
-
+    fun <T:WebApi> getApi(clazz: Class<T>): T {
+        if(!serviceMap.containsKey(clazz.canonicalName)){
+            val service:T  = WebUtil.getService(clazz);
+            serviceMap.put(clazz.canonicalName,service)
         }
-
-        return future.get()!!
+        return serviceMap.get(clazz.canonicalName) as T
     }
 
 
