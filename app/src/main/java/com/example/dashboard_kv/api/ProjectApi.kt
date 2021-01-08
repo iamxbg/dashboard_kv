@@ -51,6 +51,8 @@ data class ProjectInfo(
 interface  ProjectApi :WebApi {
 
     @GET("dev-api/workflow/project/list")
-    //@Headers("Authorization:eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjZjMzU0MmQwLTdjMmMtNDk5Ny05YTk3LTZjMGE3OTM2ZWVhMSJ9.M9kIHwQdnybwvEh4j2whgmaDWZwxaH9ZN3nIyreu8o7guetHFHrLebyZRLlFIeQjvdUhlRiXSL1V9S7Y5Intpg")
     fun projectList():Call<ResponseEntity<ProjectInfo>>
+
+    @GET("dev-api/workflow/project/query/{bussinessKey}")
+    fun projectQueryByBussinessKey(@Path("bussinessKey") bussinessKey:String):Call<ResponseEntity<ProjectInfo>>
 }

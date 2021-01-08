@@ -9,6 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import retrofit2.http.Headers
+import java.net.SocketTimeoutException
 
 /**
  *  通用的Web访问实现工具类
@@ -29,17 +30,22 @@ class WebUtil private constructor() {
                 val newReq = req.newBuilder().addHeader("Authorization",token)
                         .addHeader("accept","application/json").build()
 
-                val resp  = chain.proceed(newReq)
+                try {
+                    val resp  = chain.proceed(newReq)
 
-                if(resp.code == 200){
+                    if(resp.code == 200){
 
-                    val str = resp.body.toString()
+                        return resp;
 
-                }else {
+                    }else {
+                        TODO("根据返回的错误码，返回对应的错误信息!")
 
+                    }
+                }catch (e: SocketTimeoutException){
+                    TODO("提示超时信息")
                 }
 
-                return resp;
+
             }
 
         }
