@@ -3,6 +3,7 @@ package com.example.dashboard_kv.api
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
+import okhttp3.internal.http.promisesBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,31 +17,29 @@ class WebUtil private constructor() {
 
     companion object {
 
-        object intercetpr : Interceptor {
+        object tokenIntercetpr : Interceptor {
 
-            var token:String ="eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6ImE1MjJkMTJhLTg1MTktNDE3MS05MzM4LTE2MjgxMjliYzBjMSJ9.Tml-dmHJTffu8nMD9iqHqnH8evVy7PWaOwdeWb_QyuSh41e7zpEMtytyoYaChKnfHl0IpIORw4lanY1olv1pfg"
+            @JvmStatic
+            val token:String ="eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjZjMzU0MmQwLTdjMmMtNDk5Ny05YTk3LTZjMGE3OTM2ZWVhMSJ9.M9kIHwQdnybwvEh4j2whgmaDWZwxaH9ZN3nIyreu8o7guetHFHrLebyZRLlFIeQjvdUhlRiXSL1V9S7Y5Intpg"
+            //val token:String ="";
 
             override fun intercept(chain: Interceptor.Chain): Response {
                 val req = chain.request()
 
-                req.newBuilder().addHeader("Authorization",token)
-                        .addHeader("accept","application/json")
+                val newReq = req.newBuilder().addHeader("Authorization",token)
+                        .addHeader("accept","application/json").build()
 
-
-                val resp  = chain.proceed(req)
+                val resp  = chain.proceed(newReq)
 
                 if(resp.code == 200){
 
-                    val re  = resp.body as ResponseEntity<Any>
-
-                    if(re.code == 401 ){
-                        TODO("应该让界面显示错误信息")
-                    }
+                    val str = resp.body.toString()
 
                 }else {
 
                 }
 
+                return resp;
             }
 
         }
@@ -54,6 +53,10 @@ class WebUtil private constructor() {
             this.level = HttpLoggingInterceptor.Level.BODY;
         }
 
+        val client = OkHttpClient.Builder()
+                .addInterceptor(loginInterceptor)
+                .addNetworkInterceptor(tokenIntercetpr)
+                .build();
 
         /**
          * 访问应用者
@@ -62,8 +65,7 @@ class WebUtil private constructor() {
         val retrofit = Retrofit.Builder()
                 .baseUrl("http://192.168.1.11")
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(OkHttpClient.Builder()
-                .addInterceptor(loginInterceptor).build())
+                .client(client)
                 .build();
 
 
@@ -75,10 +77,6 @@ class WebUtil private constructor() {
             //return retrofit.create(api::class.java)
             return retrofit.create(api)
         }
-
-
-
-
 
     }
 

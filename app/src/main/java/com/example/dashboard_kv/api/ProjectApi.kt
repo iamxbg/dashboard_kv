@@ -3,10 +3,7 @@ package com.example.dashboard_kv.api
 import androidx.annotation.IntegerRes
 import org.jetbrains.annotations.Nullable
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 import java.util.Date;
 
 data class ProjectInfo(
@@ -54,5 +51,6 @@ data class ProjectInfo(
 interface  ProjectApi :WebApi {
 
     @GET("dev-api/workflow/project/list")
+    //@Headers("Authorization:eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjZjMzU0MmQwLTdjMmMtNDk5Ny05YTk3LTZjMGE3OTM2ZWVhMSJ9.M9kIHwQdnybwvEh4j2whgmaDWZwxaH9ZN3nIyreu8o7guetHFHrLebyZRLlFIeQjvdUhlRiXSL1V9S7Y5Intpg")
     fun projectList():Call<ResponseEntity<ProjectInfo>>
 }
