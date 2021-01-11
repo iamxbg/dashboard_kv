@@ -1,10 +1,11 @@
+package api
+
+import TestPrinter
 import com.example.dashboard_kv.api.TaskApi
 import com.example.dashboard_kv.api.WebUtil
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import retrofit2.http.GET
 
 @RunWith(JUnit4::class)
 class TaskApiTest {

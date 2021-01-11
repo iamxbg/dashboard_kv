@@ -30,9 +30,7 @@ object FtpFileService {
 //
 //    }
 
-//    fun getFileByParentId():List<FtpFile> {
 //
-//    }
 
 
 

@@ -22,7 +22,7 @@ class WebUtil private constructor() {
         object tokenIntercetpr : Interceptor {
 
             @JvmStatic
-            val token:String ="eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjFmZWFmNzczLTFmNjgtNGEzYi1hMWEyLTRmNGY1M2NkYzBkMiJ9.L1Pco7oD2cqy3OMt_y1QTDuJvTBMjl5-EBpvgKenqzwj8QeOttn0ENFTBbBQSbjEAgMo2MDcEeaTmR1LjH728w"
+            val token:String ="eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjVhNDA5MzAyLTMyMDUtNDE4Yi04NDk3LTFjMzNmYTQ5YTdiYyJ9.FlYCGCYkJLBXacQtg72yE67tyApExf8Gx6vCHCV9JkwBQNg9IBdEQaSTIQ2CthPyciogeD8x1ZiX1xvLQQLYJA"
 
             override fun intercept(chain: Interceptor.Chain): Response {
                 val req = chain.request()

@@ -1,4 +1,4 @@
-package com.example.dashboard_kv.fragment.module
+package com.example.dashboard_kv.fragment.window
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

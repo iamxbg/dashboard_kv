@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.example.dashboard_kv.R
-import com.example.dashboard_kv.fragment.module.NotificationFragment
-import com.example.dashboard_kv.fragment.module.ProjectInfoFragment
-import com.example.dashboard_kv.fragment.module.ProjectOrderFragment
+import com.example.dashboard_kv.fragment.window.NotificationWindow
+import com.example.dashboard_kv.fragment.window.ProjectListWindow
+import com.example.dashboard_kv.fragment.window.ProjectOrderWindow
 
 
 class UnloginFragment:Fragment(){
@@ -30,9 +30,9 @@ class UnloginFragment:Fragment(){
 
          val root:ViewGroup = inflater.inflate(R.layout.fragment_unlogin,container,false) as ViewGroup;
 
-        childFragmentManager.beginTransaction().replace(R.id.fragment_left,ProjectInfoFragment()).commit()
-        childFragmentManager.beginTransaction().replace(R.id.fragment_right_top,ProjectOrderFragment()).commit()
-        childFragmentManager.beginTransaction().replace(R.id.fragment_right_bottom,NotificationFragment()).commit()
+        childFragmentManager.beginTransaction().replace(R.id.fragment_left, ProjectListWindow()).commit()
+        childFragmentManager.beginTransaction().replace(R.id.fragment_right_top,ProjectOrderWindow()).commit()
+        childFragmentManager.beginTransaction().replace(R.id.fragment_right_bottom,NotificationWindow()).commit()
 
         return root;
 

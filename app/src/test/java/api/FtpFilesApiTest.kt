@@ -1,6 +1,8 @@
+package api
+
+import TestPrinter
 import com.example.dashboard_kv.api.FtpFilesApi
 import com.example.dashboard_kv.api.WebUtil
-import org.junit.Assert
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith

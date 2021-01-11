@@ -1,8 +1,9 @@
+package api
+
 import android.util.Log
 import com.example.dashboard_kv.api.LoginApi
 import com.example.dashboard_kv.api.WebUtil
 import org.junit.Assert
-import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -25,7 +26,7 @@ class LoginTest {
     @Test
     fun loginRoot(){
 
-        val call =loginApi.loginIndex()
+        val call = loginApi.loginIndex()
 
         call.enqueue(object : Callback<Response<Any>> {
 

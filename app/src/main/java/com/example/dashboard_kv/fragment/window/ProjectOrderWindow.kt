@@ -1,16 +1,19 @@
-package com.example.dashboard_kv.fragment.module
+package com.example.dashboard_kv.fragment.window
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.dashboard_kv.R
-import com.example.dashboard_kv.fragment.BaseFragment
+import com.example.dashboard_kv.fragment.BaseWindow
 
-val project_order_title:String="排名"
-val project_order_windowKey :String="project_order"
+const val project_order_title:String="排名"
+const val project_order_windowKey :String="project_order"
 
-class ProjectOrderFragment: BaseFragment(project_order_title, project_order_windowKey) {
+/**
+ * 任务排名窗口
+ */
+class ProjectOrderWindow: BaseWindow(project_order_title, project_order_windowKey) {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
          super.onCreateView(inflater, container, savedInstanceState)
