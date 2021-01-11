@@ -16,18 +16,12 @@ class ProjectApiTest {
     @Test
     fun testList(){
 
-        val resp  = projectApi.projectList()
+        val resp  = projectApi.projectList().execute()
 
-        //println(resp.execute().message())
-        val call = resp.execute()
 
-        println(call.code())
 
-        println(call.message())
-
-        println(call.body()?.total)
-
-        println(call.errorBody()?.toString())
+        TestPrinter.printRespBasicInfo(resp)
+        TestPrinter.printResponseEntity(resp)
 
 
     }
@@ -37,7 +31,9 @@ class ProjectApiTest {
         val bk = "projectApprovalWorkflow.1"
         val resp = projectApi.projectQueryByBussinessKey(bk).execute();
 
-        AssertUtil.basicAssert(resp)
+        TestPrinter.printRespBasicInfo(resp)
+        TestPrinter.printResponseEntity(resp)
+
     }
 
 }

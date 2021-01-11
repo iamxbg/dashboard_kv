@@ -3,18 +3,27 @@ package com.example.dashboard_kv.api
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 
-
-
-
-interface SystemStorageApi:WebApi {
+/**
+ * ftp文件接口
+ */
+interface FtpFilesApi:WebApi {
 
     @GET("system/storage/files/list")
     fun fileList():Call<ResponseEntity<FtpFile>>
 
+    @GET("system/storage/files/{id}")
+    fun fileDetail(@Path("id") id:Long):Call<ResponseEntity<FtpFile>>
+
+    @GET("system/storage/files/downloadFile/{fileID}")
+    fun downloadFile(@Path("fileID") fileId:Long):Call<ResponseEntity<FtpFile>>
+
 }
 
-
+/**
+ *  数据类
+ */
 data class FtpFile(
         val aliasName:String,
         val auditOp:Integer,

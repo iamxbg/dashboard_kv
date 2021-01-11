@@ -1,5 +1,6 @@
 package com.example.dashboard_kv.api
 
+import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -21,8 +22,7 @@ class WebUtil private constructor() {
         object tokenIntercetpr : Interceptor {
 
             @JvmStatic
-            val token:String ="eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjZjMzU0MmQwLTdjMmMtNDk5Ny05YTk3LTZjMGE3OTM2ZWVhMSJ9.M9kIHwQdnybwvEh4j2whgmaDWZwxaH9ZN3nIyreu8o7guetHFHrLebyZRLlFIeQjvdUhlRiXSL1V9S7Y5Intpg"
-            //val token:String ="";
+            val token:String ="eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjJlM2ZlMzExLTEwYWMtNDU2ZS1hYzAxLWZiMjQwM2E4ZDAxNCJ9.aC4AeAKew2-EQhLnpy_HZdI2_DT-vZiyIVwPvjoa7uysYehQ4q9AsIXRNG-MEMjvcnnfDlYNjph7aU7LXUKC3A"
 
             override fun intercept(chain: Interceptor.Chain): Response {
                 val req = chain.request()
@@ -38,6 +38,8 @@ class WebUtil private constructor() {
                         return resp;
 
                     }else {
+                        Log.e("httpStatus:",resp.code.toString())
+                        println("erroCode:"+resp.code)
                         TODO("根据返回的错误码，返回对应的错误信息!")
 
                     }
@@ -45,11 +47,9 @@ class WebUtil private constructor() {
                     TODO("提示超时信息")
                 }
 
-
             }
 
         }
-
 
         /**
          * 登录过滤器
