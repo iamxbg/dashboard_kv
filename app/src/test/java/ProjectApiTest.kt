@@ -18,11 +18,8 @@ class ProjectApiTest {
 
         val resp  = projectApi.projectList().execute()
 
-
-
         TestPrinter.printRespBasicInfo(resp)
         TestPrinter.printResponseEntity(resp)
-
 
     }
 

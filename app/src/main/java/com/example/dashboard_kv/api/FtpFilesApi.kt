@@ -10,14 +10,31 @@ import retrofit2.http.Path
  */
 interface FtpFilesApi:WebApi {
 
-    @GET("system/storage/files/list")
+    @GET("dev-api/system/storage/files/list")
     fun fileList():Call<ResponseEntity<FtpFile>>
 
-    @GET("system/storage/files/{id}")
+    @GET("dev-api/system/storage/files/{id}")
     fun fileDetail(@Path("id") id:Long):Call<ResponseEntity<FtpFile>>
 
-    @GET("system/storage/files/downloadFile/{fileID}")
+    @GET("dev-api/system/storage/files/downloadFile/{fileID}")
     fun downloadFile(@Path("fileID") fileId:Long):Call<ResponseEntity<FtpFile>>
+
+}
+
+
+object FtpFileService {
+
+    val ftpFileApi :FtpFilesApi = WebUtil.getService(FtpFilesApi::class.java)
+
+//    fun ListRootFiles(Function handler):List<FtpFile>{
+//
+//    }
+
+//    fun getFileByParentId():List<FtpFile> {
+//
+//    }
+
+
 
 }
 
