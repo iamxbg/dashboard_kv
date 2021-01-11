@@ -1,4 +1,5 @@
 import com.example.dashboard_kv.api.ResponseEntity
+import org.junit.Assert
 import retrofit2.Response
 import java.net.ResponseCache
 
@@ -6,7 +7,9 @@ object TestPrinter {
 
     fun printRespBasicInfo(resp:Response<*>){
         println(resp.code())
+        Assert.assertEquals(200,resp.code())
         println(resp.message())
+        Assert.assertEquals("OK",resp.message())
     }
 
     fun <T> printResponseEntity(resp:Response<T>){

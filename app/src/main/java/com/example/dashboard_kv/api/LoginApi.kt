@@ -27,19 +27,63 @@ interface LoginApi : WebApi {
 
     @GET("/")
     fun loginIndex():Call<retrofit2.Response<Any>>;
+
+    @GET("dev-api/getInfo")
+    fun getUserInfo():Call<Map<String,Any>>
+
+
 }
 
+/**
+ * 用户的基本信息类
+ */
+data class UserModel(
+        val admin:Boolean=false,
+        val avatar:String,
+        val createBy:String,
+        val createTime:String,
+        val delFlag:String?,
+        val deptId:Int?,
+        val email:String?,
+        val loginDate:String?,
+        val loginIp:String?,
+        val nickName:String?,
+        val phonenumber:String?,
+        val remark:String?,
+        val sex:String?,
+        val status:String,
+        val userId:Long,
+        val userName:String,
+        val roles:List<RoleModel>?  //角色
+) {}
 
-    /**
-     * 请求实体类
-     */
-    data class LoginBody(public val code:String,
-                         public val fingerprint:String,
-                         public val password:String,
-                         public val username:String,
-                         public val uuid:String) {
+/**
+ * 角色数据类
+ */
+data class RoleModel(
+        val admin:Boolean,
+        val dataScope:String,
+        val deptCheckStrictly:Boolean = false,
+        val flag:Boolean=false,
+        val menuCheckStrictly:Boolean = false,
+        val roleId:Int,
+        val roleKey:String,
+        val roleName:String,
+        val roleSort:String,
+        val status:String
+){}
 
-    }
+
+/**
+ * 请求实体类
+ */
+data class LoginBody(public val code:String,
+                     public val fingerprint:String,
+                     public val password:String,
+                     public val username:String,
+                     public val uuid:String) {
+
+}
 
 
 class LoginService() {
@@ -53,8 +97,6 @@ class LoginService() {
 
     @RequiresApi(Build.VERSION_CODES.O)
      fun login(loginBody: LoginBody) {
-
-        //val loginApi = WebUtil.getService(LoginApi::class.java);
 
         loginApi.login(LoginBody("code","fingerprint",getEcryptedPassword("111111"),"admin","uuid"))
 

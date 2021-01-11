@@ -28,6 +28,9 @@ class LoginTest {
 
         val call = loginApi.loginIndex()
 
+        //TestPrinter.printRespBasicInfo(resp)
+        //TestPrinter.printResponseEntity(resp)
+
         call.enqueue(object : Callback<Response<Any>> {
 
             override fun onFailure(call: Call<Response<Any>>, t: Throwable) {
@@ -47,10 +50,9 @@ class LoginTest {
         val resp = loginApi.info(Date().time)
                 .execute();
 
-        println(resp.message())
+        TestPrinter.printRespBasicInfo(resp)
 
         val map = resp.body();
-
         Assert.assertNotNull(map)
 
         for(k in map!!.keys){
@@ -64,12 +66,30 @@ class LoginTest {
 
         val resp = loginApi.captchaImage().execute()
 
-        println(resp.message())
+        TestPrinter.printRespBasicInfo(resp)
 
         val body = resp.body()!!
 
         for(k in body.keys)
             println("key:"+k+":val"+body.get(k))
+
+
+    }
+
+    @Test
+    fun testGetUserInfo(){
+
+        val resp = loginApi.getUserInfo().execute()
+
+        TestPrinter.printRespBasicInfo(resp)
+
+        val map = resp.body() as Map<String,Any>
+
+        Assert.assertNotNull(map.get("user"))
+        Assert.assertNotNull(map.get("roles"))
+        Assert.assertNotNull(map.get("permissions"))
+
+
     }
 
 

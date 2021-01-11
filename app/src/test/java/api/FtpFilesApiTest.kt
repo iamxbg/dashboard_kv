@@ -14,9 +14,7 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class FtpFilesApiTest {
 
-
      val api = WebUtil.getService(FtpFilesApi::class.java)
-
 
     @Test
      fun testFileList(){
