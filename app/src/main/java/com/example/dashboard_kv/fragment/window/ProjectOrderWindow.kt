@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.dashboard_kv.R
-import com.example.dashboard_kv.fragment.BaseWindow
 
 const val project_order_title:String="排名"
 const val project_order_windowKey :String="project_order"
@@ -15,10 +14,14 @@ const val project_order_windowKey :String="project_order"
  */
 class ProjectOrderWindow: BaseWindow(project_order_title, project_order_windowKey) {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-         super.onCreateView(inflater, container, savedInstanceState)
+    override var rootLayoutId: Int
+        get() = R.layout.fragment_project_order
+        set(value) {}
 
-        return inflater.inflate(R.layout.fragment_project_order,container,false);
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return  super.onCreateView(inflater, container, savedInstanceState)
+
+        //return inflater.inflate(R.layout.fragment_project_order,container,false);
     }
 
 }

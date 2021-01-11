@@ -9,20 +9,23 @@ import android.widget.ArrayAdapter
 import android.widget.GridView
 import android.widget.LinearLayout
 import com.example.dashboard_kv.R
-import com.example.dashboard_kv.fragment.BaseWindow
 
 const val makeFileTitle ="工艺文件"
 const val makeFileWindowId ="make_file_window"
-class MakeFilesWindow:BaseWindow(makeFileTitle, makeFileWindowId){
+class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
 
     private lateinit  var makeFilesGridView: GridView;
 
     private lateinit var root: LinearLayout;
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
+    override var rootLayoutId: Int
+        get() = R.layout.fragment_make_files
+        set(value) {}
 
-        var root = inflater.inflate(R.layout.fragment_make_files,container);
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        root  = super.onCreateView(inflater, container, savedInstanceState) as LinearLayout
+
+       // var root = inflater.inflate(R.layout.fragment_make_files,container);
 
         makeFilesGridView = root.findViewById(R.id.grid_view_task_files);
 
