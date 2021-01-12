@@ -14,11 +14,11 @@
 
 
     <com.example.dashboard_kv.widget.FileView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        app:imgSource="@drawable/file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@color/sys_blue"
-        app:fileName="测试名称">
+        app:fileName="测试名称"
+        app:imgSource="@drawable/file">
 
     </com.example.dashboard_kv.widget.FileView>
 
