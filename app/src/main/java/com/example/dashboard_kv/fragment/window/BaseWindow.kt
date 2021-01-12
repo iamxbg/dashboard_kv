@@ -11,7 +11,6 @@ import kotlin.properties.Delegates
 
 open abstract class BaseWindow(var title:String, var windowId:String):Fragment() {
 
-
     open var rootLayoutId by Delegates.notNull<Int>()
 
 

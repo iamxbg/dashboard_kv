@@ -8,6 +8,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.GridView
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.RecyclerView
 import com.example.dashboard_kv.R
 
 const val makeFileTitle ="工艺文件"
@@ -37,7 +38,10 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
         super.onStart()
 
 
+
         var adapter : ArrayAdapter<String> = ArrayAdapter(requireContext(), R.layout.widget_make_file_folder)
+
+
 
         adapter.add("文件夹-1")
         adapter.add("文件夹-2")
@@ -51,6 +55,8 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
         adapter.add("文件夹-10")
 
         makeFilesGridView.adapter = adapter;
+
+
 
         val onClick = fun(parent: AdapterView<ArrayAdapter<String>>, v: View, position:Int, id:Long) :Unit{
 

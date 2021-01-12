@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.dashboard_kv.R
+import com.example.dashboard_kv.widget.FileView
 
 const val projectListTitle:String ="项目信息"
 const val projectListWindowId:String ="project_info_list"
@@ -18,8 +19,18 @@ class ProjectListWindow: BaseWindow(projectListTitle, projectListWindowId){
         get() = R.layout.fragment_project_list
         set(value) {}
 
+
+    lateinit var root:ViewGroup
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+
+         root = super.onCreateView(inflater, container, savedInstanceState) as ViewGroup
+            //val file = FileView(this.requireContext());
+
+        //root.addView(file)
+
+
+        return root;
     }
 
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FileView">
+        <attr name="imgSource" format="string"></attr>
+        <attr name="fileName" format="string"></attr>
+    </declare-styleable>
+</resources>
