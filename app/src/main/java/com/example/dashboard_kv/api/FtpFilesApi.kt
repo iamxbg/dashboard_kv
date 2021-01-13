@@ -1,9 +1,13 @@
 package com.example.dashboard_kv.api
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * ftp文件接口
@@ -11,7 +15,7 @@ import retrofit2.http.Path
 interface FtpFilesApi:WebApi {
 
     @GET("dev-api/system/storage/files/list")
-    fun fileList():Call<ResponseEntity<FtpFile>>
+    fun fileList(@Query("id") id:Long?):Call<ResponseEntity<FtpFile>>
 
     @GET("dev-api/system/storage/files/{id}")
     fun fileDetail(@Path("id") id:Long):Call<ResponseEntity<FtpFile>>
@@ -26,9 +30,10 @@ interface FtpFilesApi:WebApi {
 /**
  *  数据类
  */
+@Entity
 data class FtpFile(
-        val aliasName:String,
-        val auditOp:Int,
+        @ColumnInfo val aliasName:String,
+        @ColumnInfo val auditOp:Int,
         val beginTime:String,
         val businessKey:String,
         val createBy:String,
@@ -38,7 +43,7 @@ data class FtpFile(
         val fileSuffix:String,
         val ftpPath:String,
         val fullFilePath:String,
-        val id:Long,
+        @PrimaryKey val id:Long,
         val level:String,
         val localPdfPath:String,
         val localResourcePath:String,
