@@ -13,50 +13,58 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.dashboard_kv.R
+import com.example.dashboard_kv.api.FtpFile
 
 
 /**
  * 文件和文件夹的自定义视图
  */
-class FileView(context:Context) : LinearLayout(context) {
+class FileView(val rawFile:FtpFile,context:Context) : LinearLayout(context) {
+
+
 
     private lateinit var imgSrouce:String
     private lateinit var fileName:String
 
-    private lateinit var image:ImageView
-    private lateinit var tvFileName:TextView
+    //private lateinit var image:ImageView
+   // private lateinit var tvFileName:TextView
 
     @SuppressLint("ResourceAsColor")
-    constructor(context: Context, attributeSet: AttributeSet):this(context){
+    constructor(rawFile:FtpFile,context: Context, attributeSet: AttributeSet):this(rawFile,context){
 
         orientation = VERTICAL
-
-        this.layoutParams = LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
+        layoutParams = LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
 
         val ta = context.obtainStyledAttributes(attributeSet,
                 com.example.dashboard_kv.R.styleable.FileView, 0, 0)
 
-        image = ImageView(context)
+       ImageView(context)
             .apply {
 
-                this.layoutParams = LayoutParams(50,50)
-
+                //set basic styles
+                layoutParams = LayoutParams(150,150)
                 scaleType = ImageView.ScaleType.FIT_CENTER
-                val img  = resources.getDrawable(R.drawable.file) as BitmapDrawable
-                setImageDrawable(img)
+
+                //set file icon
+                when(rawFile.type){
+                    "1" -> (resources.getDrawable(R.drawable.folder) as BitmapDrawable)
+                            .apply { setImageDrawable(this) }
+                    "2" -> (resources.getDrawable(R.drawable.file) as BitmapDrawable)
+                            .apply { setImageDrawable(this) }
+                }
 
             }.also {
                 this.addView(it)
             }
 
-        tvFileName = TextView(context)
+        TextView(context)
             .apply {
-                layoutParams = LayoutParams(50,20)
+                layoutParams = LayoutParams(150,50)
                 background  = resources.getDrawable(R.drawable.default_background)
                 //text = ta.getString(com.example.dashboard_kv.R.styleable.FileView_fileName)
-                text = "Hello World"
-                textSize = 30.0f
-                setTextColor(R.color.lb_default_search_color)
+                text = rawFile.name
+                textSize = 10f
+                setTextColor(R.color.sys_blue)
 
             }.also {
                 this.addView(it)

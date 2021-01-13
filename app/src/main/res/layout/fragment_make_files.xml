@@ -8,7 +8,13 @@
     <TextView
         style="@style/tv_window_title"
         android:text="工艺文件"/>
+    <Button android:id="@+id/testBtn"
+        android:text="Test"
+        android:background="@color/dev_gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
+    </Button>
     <GridView
         android:id="@+id/grid_view_task_files"
         xmlns:android="http://schemas.android.com/apk/res/android"

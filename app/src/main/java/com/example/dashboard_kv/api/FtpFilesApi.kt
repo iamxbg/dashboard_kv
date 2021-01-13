@@ -22,26 +22,13 @@ interface FtpFilesApi:WebApi {
 }
 
 
-object FtpFileService {
-
-    val ftpFileApi :FtpFilesApi = WebUtil.getService(FtpFilesApi::class.java)
-
-//    fun ListRootFiles(Function handler):List<FtpFile>{
-//
-//    }
-
-//
-
-
-
-}
 
 /**
  *  数据类
  */
 data class FtpFile(
         val aliasName:String,
-        val auditOp:Integer,
+        val auditOp:Int,
         val beginTime:String,
         val businessKey:String,
         val createBy:String,
