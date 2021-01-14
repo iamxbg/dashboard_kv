@@ -14,4 +14,20 @@
         <!--
             <style name="fragment_window" parent="android:"></style>
         -->
+
+
+    <!-- 物料窗口 - 物料线Tag的样式 -->
+    <style name="textView_supply_staff_tag" parent="android:Widget.TextView">
+
+            <item name="android:paddingStart">10dp</item>
+            <item name="android:paddingEnd">10dp</item>
+            <item name="android:paddingTop">10dp</item>
+            <item name="android:paddingBottom">10dp</item>
+
+            <item name="android:letterSpacing">0.3</item>
+            <item name="android:textSize">20dp</item>
+            <item name="color">@color/sys_white</item>
+            <item name="android:background">@color/sys_blue</item>
+
+    </style>
 </resources>

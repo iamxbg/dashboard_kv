@@ -19,6 +19,7 @@ import com.example.dashboard_kv.api.FtpFile
 /**
  * 文件和文件夹的自定义视图
  */
+@Deprecated("暂不采用自定义视图，不够熟悉对应的设置方式")
 class FileView(val rawFile:FtpFile,context:Context) : LinearLayout(context) {
 
 

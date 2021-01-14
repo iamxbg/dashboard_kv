@@ -15,7 +15,7 @@ import retrofit2.http.Query
 interface FtpFilesApi:WebApi {
 
     @GET("dev-api/system/storage/files/list")
-    fun fileList(@Query("id") id:Long?):Call<ResponseEntity<FtpFile>>
+    fun fileList(@Query("parentId") id:Long? = 1):Call<ResponseEntity<FtpFile>>
 
     @GET("dev-api/system/storage/files/{id}")
     fun fileDetail(@Path("id") id:Long):Call<ResponseEntity<FtpFile>>

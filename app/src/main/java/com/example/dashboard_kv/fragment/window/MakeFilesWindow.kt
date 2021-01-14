@@ -1,6 +1,5 @@
 package com.example.dashboard_kv.fragment.window
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -10,10 +9,9 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.LayoutRes
 import androidx.annotation.NonNull
-import androidx.annotation.Nullable
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.*
-import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.Observer
 import com.example.dashboard_kv.R
 import com.example.dashboard_kv.api.FtpFile
 import com.example.dashboard_kv.api.FtpFilesApi
@@ -22,6 +20,8 @@ import com.example.dashboard_kv.api.WebUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import kotlin.collections.ArrayList
 
 const val makeFileTitle ="工艺文件"
 const val makeFileWindowId ="make_file_window"
@@ -42,10 +42,14 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
      */
     private lateinit var viewModel:MakeFilesViewModel;
 
+    private lateinit var  currentFolderIdViewModel:StackViewModel<Long>;
+
+
+
     companion object{
        val fileApi:FtpFilesApi = WebUtil.getService(FtpFilesApi::class.java)
 
-
+        val KEY_CURRENT_FOLDER_ID ="CURRENT_FOLDER_ID"
 
     }
 
@@ -60,6 +64,10 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        currentFolderIdViewModel = ViewModelProvider(this).get(KEY_CURRENT_FOLDER_ID,StackViewModel::class.java) as StackViewModel<Long>;
+
+        currentFolderIdViewModel.stack.push(1);
 
         viewModel =  ViewModelProvider(this).get(MakeFilesViewModel::class.java)
                 .also {
@@ -81,7 +89,7 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
                     }
 
                     //bind observer
-                    it.getFiles().observe(viewLifecycleOwner
+                    it.rawFiles.observe(viewLifecycleOwner
                             ,makeFilesObserver)
                 }
 
@@ -91,27 +99,31 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         root  = super.onCreateView(inflater, container, savedInstanceState) as LinearLayout
 
-
-        root.findViewById<Button>(R.id.testBtn).setOnClickListener({
-            v->
-
-            val f1 = FtpFile("",111,"","","","","",12,"","",
-                    "",1,"","","","Test-1","","",111,"","",null,"1","",
-                    "")
-
-            val f2 = FtpFile("",111,"","","","","",12,"","",
-                    "",2,"","","","Test-2","","",111,"","",null,"2","",
-                    "")
-
-            viewModel.addFile(f1)
-            viewModel.addFile(f2)
-
-
-
-
-        })
-
         makeFilesGridView = root.findViewById(R.id.grid_view_task_files);
+
+        /**
+         * 返回按钮
+         */
+         root.findViewById<ImageButton>(R.id.imageButton_back)
+            .apply {
+                setOnClickListener {
+                    if(currentFolderIdViewModel.stack.size>=2)
+                        currentFolderIdViewModel.stack.pop()
+                        loadFiles(currentFolderIdViewModel.stack.peek())
+                }
+            }
+
+        /**
+         * 刷新按钮
+         */
+
+        root.findViewById<ImageButton>(R.id.imageButton_refresh)
+            .apply {
+                setOnClickListener {
+                    loadFiles(currentFolderIdViewModel.stack.peek())
+                }
+            }
+
 
         FtpFileArrayAdapter(requireContext(), R.layout.widget_make_file_folder)
                 .apply {
@@ -128,10 +140,10 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
      */
     private fun loadFiles(fileId:Long?):Unit{
 
-        fileApi.fileList(fileId).enqueue(object: Callback<ResponseEntity<FtpFile>> {
+        fileApi.fileList(fileId?:1).enqueue(object: Callback<ResponseEntity<FtpFile>> {
             override fun onResponse(call: Call<ResponseEntity<FtpFile>>, response: Response<ResponseEntity<FtpFile>>) {
 
-                val files = response.body()?.data as MutableList<FtpFile>
+                val files = response.body()?.rows as MutableList<FtpFile>
 
                 viewModel.setFiles(files)
 
@@ -173,6 +185,7 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
                                     v ->
                                     Toast.makeText(context,"INSIDE",Toast.LENGTH_LONG).show()
 
+                                    currentFolderIdViewModel.stack.push(ftpFile.id)
                                     loadFiles(ftpFile.id)
 
                                 })
@@ -193,6 +206,17 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
 
 }
 
+
+class  StackViewModel<T>():ViewModel(){
+
+    val stack:LinkedList<T> = LinkedList();
+
+
+
+}
+
+
+
 /**
  *  make files' view model
  */
@@ -201,16 +225,23 @@ class MakeFilesViewModel:ViewModel(){
 
      val rawFiles = MutableLiveData<MutableList<FtpFile>>()
 
-    fun getFiles():MutableLiveData<MutableList<FtpFile>> {
-        return rawFiles
+    init{
+         rawFiles.value?:ArrayList<FtpFile>().apply { rawFiles.value = this }
     }
+
 
     fun addFile(file:FtpFile){
 
-        val files:MutableList<FtpFile> = rawFiles.value?:ArrayList<FtpFile>().apply { rawFiles.value = this }
-
         rawFiles.value?.add(file)
         rawFiles.value = (rawFiles.value)
+    }
+
+    fun addFiles(vararg  files:FtpFile){
+
+        for(f in files)
+            rawFiles.value?.add(f)
+
+        rawFiles.value = rawFiles.value
     }
 
     //如何使用var args

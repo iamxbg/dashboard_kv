@@ -10,4 +10,14 @@
         style="@style/tv_window_title"
         android:text="当前任务"
         />
+
+
+    <ListView
+        android:id="@+id/listView_taskInfo"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:background="@color/selected_background">
+
+    </ListView>
 </LinearLayout>

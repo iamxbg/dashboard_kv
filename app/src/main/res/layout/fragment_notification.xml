@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/window_background"
     android:orientation="vertical">
 
-    <TextView
-        style="@style/tv_window_title"
-        android:text="公告"
-        />
+    <ListView
+        android:id="@+id/listView_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dev_gray">
 
-</LinearLayout>
+    </ListView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
