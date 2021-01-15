@@ -140,7 +140,9 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
      */
     private fun loadFiles(fileId:Long?):Unit{
 
-        fileApi.fileList(fileId?:1).enqueue(object: Callback<ResponseEntity<FtpFile>> {
+        fileApi.fileList(fileId?:1)
+                .enqueue(object: Callback<ResponseEntity<FtpFile>> {
+
             override fun onResponse(call: Call<ResponseEntity<FtpFile>>, response: Response<ResponseEntity<FtpFile>>) {
 
                 val files = response.body()?.rows as MutableList<FtpFile>
@@ -162,7 +164,6 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
     inner class FtpFileArrayAdapter( @NonNull context :Context, @LayoutRes  resource:Int) : ArrayAdapter<FtpFile>(context,resource) {
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            Log.w("Array Adapter getView:","enter!")
 
             val ftpFile = getItem(position)
             //LayoutInflater.from(context)
@@ -200,7 +201,7 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
     override fun onStart() {
         super.onStart()
 
-        loadFiles(null)
+       // loadFiles(null)
 
     }
 
@@ -248,5 +249,7 @@ class MakeFilesViewModel:ViewModel(){
     fun setFiles(files:MutableList<FtpFile> ){
         rawFiles.value = files
     }
+
+
 
 }

@@ -1,12 +1,17 @@
 package api
 
 import TestPrinter
+import com.example.dashboard_kv.api.FtpFile
 import com.example.dashboard_kv.api.FtpFilesApi
+import com.example.dashboard_kv.api.ResponseEntity
 import com.example.dashboard_kv.api.WebUtil
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 /**
  * 工艺文件接口测试
@@ -23,6 +28,28 @@ class FtpFilesApiTest {
 
         TestPrinter.printRespBasicInfo(resp)
         TestPrinter.printResponseEntity(resp)
+
+    }
+
+
+    @Test
+    fun testFileListAsync(){
+
+        api.fileList()
+                .enqueue(object: Callback<ResponseEntity<FtpFile>> {
+                    override fun onResponse(call: Call<ResponseEntity<FtpFile>>, response: Response<ResponseEntity<FtpFile>>) {
+
+                        TestPrinter.printRespBasicInfo(response)
+                        TestPrinter.printResponseEntity(response)
+                    }
+
+                    override fun onFailure(call: Call<ResponseEntity<FtpFile>>, t: Throwable) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
+
+        Thread.sleep(5000)
 
     }
 

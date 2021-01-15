@@ -61,17 +61,23 @@ class LoginTest {
 
     }
 
+
+    @Test
+    fun testDashboardTempalte(){
+
+        val resp = loginApi.getDashBoardTempaltes().execute();
+
+        TestPrinter.printRespBasicInfo(resp)
+        TestPrinter.printResponseEntity(resp)
+    }
+
     @Test
     fun testCaptcha():Unit {
 
         val resp = loginApi.captchaImage().execute()
 
-        TestPrinter.printRespBasicInfo(resp)
-
-        val body = resp.body()!!
-
-        for(k in body.keys)
-            println("key:"+k+":val"+body.get(k))
+        println(resp.body()!!.msg)
+        println(resp.body()!!.img)
 
 
     }

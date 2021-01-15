@@ -8,9 +8,9 @@
 
     <LinearLayout
         android:id="@+id/ll_login"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,9 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <Space android:layout_width="match_parent"
-                android:layout_height="50dp"/>
 
             <TextView android:text="登录"
                 android:layout_width="wrap_content"
@@ -38,7 +35,7 @@
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+    >
 
                 <TextView android:text="用户名"
                     android:textColor="@color/sys_blue"
@@ -47,15 +44,14 @@
                     android:layout_gravity="center_vertical"
                     />
 
-                <Space android:layout_width="20dp"
-                    android:layout_height="match_parent"/>
 
                 <EditText android:id="@+id/et_username"
                     android:textColor="@color/dev_gray"
                     android:layout_width="100dp"
                     android:layout_height="50dp"
-                    android:inputType="phone"
+                    android:inputType="text"
                     android:textSize="20dp"
+                    style="@style/textView_noSoftInput"
 
 
                     android:layout_gravity="center_vertical"/>
@@ -64,19 +60,18 @@
 
             <!-- 密码 -->
             <GridLayout android:layout_marginTop="20dp">
-                <TextView android:text="用户名"
+                <TextView android:text="密码"
                     android:textColor="@color/sys_blue"
                     android:letterSpacing="0.5"
                     android:layout_marginStart="30dp"
                     android:layout_gravity="center_vertical"
                     />
 
-                <Space android:layout_width="20dp"
-                    android:layout_height="match_parent"/>
 
                 <EditText android:id="@+id/et_password"
                     android:layout_width="100dp"
                     android:layout_height="50dp"
+                    android:inputType="textPassword"
                     android:textColor="@color/dev_gray"
                     android:layout_gravity="center_vertical"/>
             </GridLayout>
@@ -95,18 +90,28 @@
                     android:layout_gravity="center_vertical"
                     />
 
-                <Space android:layout_width="20dp"
-                    android:layout_height="match_parent"/>
+                <EditText
+                    android:id="@+id/et_captchaCode"
+                    android:layout_marginStart="30dp"
+                    android:letterSpacing="0.7"
+                    android:layout_gravity="center_vertical"
+                    />
 
                 <ImageButton
-                    android:id="@+id/ib_captcha"
+                    android:id="@+id/imageButton_captcha"
                     android:layout_width="100dp"
                     android:layout_height="50dp"/>
 
-                <Space android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
-
             </GridLayout>
+
+            <Button android:id="@+id/btn_login"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:text="登录"
+                android:layout_gravity="center_horizontal"
+                android:letterSpacing="0.4">
+
+            </Button>
 
         </GridLayout>
 

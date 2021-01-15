@@ -53,6 +53,12 @@ interface  ProjectApi :WebApi {
     @GET("dev-api/workflow/project/list")
     fun projectList():Call<ResponseEntity<ProjectInfo>>
 
+    @GET("dev-api/workflow/project/listAApproval")
+    fun projectListApproved():Call<ResponseEntity<ProjectInfo>>
+
+    @GET("dev-api/workflow/project/list")
+    fun projectList(@Query("pageNum") pageNum:Int?,@Query("pageSize") pageSize:Int?):Call<ResponseEntity<ProjectInfo>>
+
     @GET("dev-api/workflow/project/query/{bussinessKey}")
     fun projectQueryByBussinessKey(@Path("bussinessKey") bussinessKey:String):Call<ResponseEntity<ProjectInfo>>
 }

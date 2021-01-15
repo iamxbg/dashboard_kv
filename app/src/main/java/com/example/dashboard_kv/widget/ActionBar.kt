@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.dashboard_kv.R
+import com.example.dashboard_kv.api.WebUtil
 
 
 class ActionBar:Fragment() {
@@ -30,9 +31,8 @@ class ActionBar:Fragment() {
            // val navHostFragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment)
 
             val navHosFragment = parentFragmentManager.findFragmentById(R.id.nav_host_fragment)
-            //view.findNavController().navigate(R.id.action_unloginFragment_to_loginFragment)
-
             navHosFragment?.findNavController()?.navigate(R.id.action_unloginFragment_to_loginFragment)
+
 
         }
 

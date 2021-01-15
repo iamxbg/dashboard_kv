@@ -28,12 +28,9 @@ class UnloginFragment:Fragment(){
 
          val root:ViewGroup = inflater.inflate(R.layout.fragment_unlogin,container,false) as ViewGroup;
 
-        childFragmentManager.beginTransaction().replace(R.id.fragment_left, SupplyStaffWindow()).commit()
-
-
-        childFragmentManager.beginTransaction().replace(R.id.fragment_right_top,ProjectOrderWindow()).commit()
-        childFragmentManager.beginTransaction().replace(R.id.fragment_right_bottom,NotificationWindow()).commit()
-        //childFragmentManager.beginTransaction().replace(R.id.fragment_right_bottom,CurrentTaskInfoWindow()).commit()
+//        childFragmentManager.beginTransaction().replace(R.id.fragment_left, ProjectListWindow()).commit()
+//        childFragmentManager.beginTransaction().replace(R.id.fragment_right_top,ProjectOrderWindow()).commit()
+//        childFragmentManager.beginTransaction().replace(R.id.fragment_right_bottom,CurrentTaskInfoWindow()).commit()
 
         return root;
 

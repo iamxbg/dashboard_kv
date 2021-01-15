@@ -30,4 +30,11 @@
             <item name="android:background">@color/sys_blue</item>
 
     </style>
+
+    <style name="textView_noSoftInput" parent="Widget.AppCompat.EditText">
+        <item name="android:windowSoftInputMode">stateAlwaysHidden</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+
+    </style>
 </resources>

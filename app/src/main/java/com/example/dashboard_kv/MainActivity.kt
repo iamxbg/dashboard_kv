@@ -1,17 +1,23 @@
 package com.example.dashboard_kv
 
 import android.app.Activity
+import android.app.TaskStackBuilder
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
+import android.util.AttributeSet
+import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentContainerView
+import androidx.navigation.findNavController
 import com.example.dashboard_kv.api.WebService
+import com.example.dashboard_kv.api.WebUtil
 
 /**
  * Loads [MainFragment].
@@ -25,11 +31,27 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+//        val navHostFragment = findViewById<FragmentContainerView>(R.id.nav_host_fragment)
+//
+//
+//
+//        WebUtil.init(navHostFragment?.findNavController()!!)
+
+
         //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         //val inputMethodManager =this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         //inputMethodManager.hideSoftInputFromWindow()
 
+
     }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+
+
+    }
+
+
 
     private val connection = object:ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {

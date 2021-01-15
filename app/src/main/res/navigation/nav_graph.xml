@@ -11,20 +11,29 @@
         android:name="com.example.dashboard_kv.fragment.UnloginFragment"
         android:label="UnloginFragment" >
         <action
-            android:id="@+id/action_unloginFragment_to_desktopFragment"
-            app:destination="@id/desktopFragment" />
-        <action
             android:id="@+id/action_unloginFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/desktopFragment"
         android:name="com.example.dashboard_kv.fragment.DesktopFragment"
-        android:label="DesktopFragment" />
+        android:label="DesktopFragment" >
+        <action
+            android:id="@+id/action_desktopFragment_to_projectDetailFragment"
+            app:destination="@id/projectDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.dashboard_kv.fragment.LoginFragment"
-        android:label="LoginFragment" />
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_desktopFragment"
+            app:destination="@id/desktopFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/projectDetailFragment"
+        android:name="com.example.dashboard_kv.fragment.ProjectDetailFragment"
+        android:label="ProjectDetailFragment" />
 
 
 </navigation>

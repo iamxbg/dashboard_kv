@@ -1,29 +1,20 @@
 package com.example.dashboard_kv.api
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-import com.google.gson.Gson
 import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Retrofit
 import retrofit2.http.*
-import java.security.KeyFactory
-import java.security.spec.X509EncodedKeySpec
-import java.util.*
-import javax.crypto.Cipher
 
 interface LoginApi : WebApi {
 
 
-    @POST("login")
-    fun login(@Body loginBody:LoginBody):Call<Unit>;
+    @POST("dev-api/login")
+    fun login(@Body loginReq:LoginReq):Call<LoginResp>;
 
     @GET("sockjs-node/info")
     @Headers("Referer:http://192.168.1.11/index")
     fun info(@Query("t") t:Long):Call<Map<String,Object>>;
 
     @GET("dev-api/captchaImage")
-    fun captchaImage():Call<Map<String,Object>>
+    fun captchaImage():Call<CaptchaImage>
 
     @GET("/")
     fun loginIndex():Call<retrofit2.Response<Any>>;
@@ -32,7 +23,26 @@ interface LoginApi : WebApi {
     fun getUserInfo():Call<Map<String,Any>>
 
 
+    @GET("dev-api/board/login/getPageInfo")
+    fun getDashBoardTempaltes():Call<ResponseEntity<DashboardTemplate>>
+
+
 }
+
+/**
+ * 看板模板
+ */
+data class DashboardTemplate(val createBy:String,val createTime:String,val remark:String?,val templateId:Int,val templateName:String,val pageInfoList:List<TemplatePage>){}
+
+/**
+ * 看板模板-分页
+ */
+data class TemplatePage(val pageId:Int,val elementLocationList:List<TemplateWindow>){}
+
+/**
+ * 看板模板-分页-窗口
+ */
+data class TemplateWindow(val pageLocationId:Int,val elementId:Int){}
 
 /**
  * 用户的基本信息类
@@ -76,68 +86,23 @@ data class RoleModel(
 
 /**
  * 请求实体类
+ *  code 验证码
+ *  uuid - captchaImage 返回的uuid ;必须与code 匹配！
  */
-data class LoginBody(public val code:String,
-                     public val fingerprint:String,
-                     public val password:String,
-                     public val username:String,
-                     public val uuid:String) {
+data class LoginReq(public val code:String,
+                    public val password:String,
+                    public val username:String,
+                    public val uuid:String)
 
-}
+/**
+ * 请求返回值
+ */
+data class LoginResp(val code:Int,val msg:String,val token:String)
 
-
-class LoginService() {
-
-    companion object{
-
-        val loginApi:LoginApi = WebUtil.getService(LoginApi::class.java)
-
-    }
-
-
-    @RequiresApi(Build.VERSION_CODES.O)
-     fun login(loginBody: LoginBody) {
-
-        loginApi.login(LoginBody("code","fingerprint",getEcryptedPassword("111111"),"admin","uuid"))
-
-    }
-
-     fun info(timestamp:Long): Unit {
-        val loginApi = WebUtil.getService(LoginApi::class.java)
-        //println(loginApi.info(timestamp).execute().message())
-    }
-
-
-    fun getCaptchaImage():Unit{
-
-        //val loginApi = WebUtil.getService(LoginApi::class.java)
-
-        //print(loginApi.captchaImage().execute().body())
-    }
-
-
-    val PUBLIC_KEY :String ="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCU7GKkferYtm3Z2JiiYUVWb52KHoanPD8" +
-            "K/f4jexS0Asi52ONmiKdeT2vyRc7s78wCcvHfx02SbrGUtKDIfRzPqmp6uF7Nx8+" +
-            "24FkLGI8iIJbm3HTsSBR5j3JbIU4FbYg0C7b+" +
-            "8RMEJGGRtGE0X7YLnIknzR+euEP5tjVDinLxHQIDAQAB";
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun getEcryptedPassword(password: String):String{
-
-         val keySpec = X509EncodedKeySpec( Base64.getDecoder().decode(PUBLIC_KEY));
-         val keyFactory = KeyFactory.getInstance("RSA");
-         val publicKey = keyFactory.generatePublic(keySpec)
-
-        val cipher = Cipher.getInstance("RSA")
-            cipher.init(Cipher.ENCRYPT_MODE,publicKey)
-        println("password:"+password)
-      val encodedPassWd =   Base64.getEncoder().encodeToString(cipher.doFinal(password.toByteArray()))
-        println("encoded-password:"+encodedPassWd)
-        return encodedPassWd;
-    }
-
-
-}
+/**
+ * captcha image
+ */
+data class CaptchaImage(val code:Int,val img:String,val msg:String,val uuid:String){}
 
 
 

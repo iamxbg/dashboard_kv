@@ -12,7 +12,7 @@ const val project_order_windowKey :String="project_order"
 /**
  * 任务排名窗口
  */
-class ProjectOrderWindow: BaseWindow(project_order_title, project_order_windowKey) {
+class TaskOrderWindow: BaseWindow(project_order_title, project_order_windowKey) {
 
     override var rootLayoutId: Int
         get() = R.layout.fragment_project_order
