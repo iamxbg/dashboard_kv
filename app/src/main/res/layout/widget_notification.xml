@@ -10,15 +10,24 @@
     <TextView
         android:id="@+id/textView_notification_title"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="24dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginVertical="3dp"
         android:gravity="center_vertical"
+        android:textColor="@color/sys_blue"
         android:letterSpacing="0.1"
-        android:background="@color/selected_background"
-        android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 日期 -->
+    <TextView
+        android:id="@+id/textView_date"
+        android:layout_width="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:textColor="@color/sys_blue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="24dp" />
 
     <!-- 消息图片 -->
     <ImageView
@@ -39,6 +48,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:text="5"
+        android:textColor="@color/sys_blue"
         android:textSize="10dp"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/textView_notification_title" />

@@ -88,8 +88,13 @@ class ProjectListWindow: BaseWindow(projectListTitle, projectListWindowId){
                     }
 
                     override fun onFailure(call: Call<ResponseEntity<ProjectInfo>>, t: Throwable) {
-                        Log.e("loadFiles failure!",t.message)
-                        TODO("Not yet implemented")
+
+                        try{
+                            TODO("Not yet implemented")
+                        }catch(e:kotlin.NotImplementedError ){
+                            Log.e("loadFiles failure!",t.message)
+                        }
+
 
 
                     }
@@ -101,10 +106,6 @@ class ProjectListWindow: BaseWindow(projectListTitle, projectListWindowId){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
          root = super.onCreateView(inflater, container, savedInstanceState) as ViewGroup
-            //val file = FileView(this.requireContext());
-
-        //root.addView(file)
-
 
         listView_projectInfo =  root.findViewById<ListView>(R.id.listView_projectInfo)
                 .apply {

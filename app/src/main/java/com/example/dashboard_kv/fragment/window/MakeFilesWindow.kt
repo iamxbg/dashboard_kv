@@ -184,8 +184,6 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
 
                                 setOnClickListener({
                                     v ->
-                                    Toast.makeText(context,"INSIDE",Toast.LENGTH_LONG).show()
-
                                     currentFolderIdViewModel.stack.push(ftpFile.id)
                                     loadFiles(ftpFile.id)
 

@@ -3,12 +3,12 @@
         <!-- 子窗口的标题样式 -->
         <style name="tv_window_title" parent="android:Widget.TextView">
             <item name="android:layout_width">match_parent</item>
-            <item name="android:layout_height">30dp</item>
+            <item name="android:layout_height">20dp</item>
             <item name="android:background">@color/sys_blue</item>
             <item name="android:textColor">@color/sys_white</item>
             <item name="android:gravity">center_vertical</item>
-            <item name="android:letterSpacing">0.5</item>
-            <item name="android:textSize">18dp</item>
+            <item name="android:letterSpacing">0.4</item>
+            <item name="android:textSize">12dp</item>
             <item name="android:paddingStart">10dp</item>
         </style>
         <!--
@@ -16,25 +16,92 @@
         -->
 
 
-    <!-- 物料窗口 - 物料线Tag的样式 -->
-    <style name="textView_supply_staff_tag" parent="android:Widget.TextView">
-
-            <item name="android:paddingStart">10dp</item>
-            <item name="android:paddingEnd">10dp</item>
-            <item name="android:paddingTop">10dp</item>
-            <item name="android:paddingBottom">10dp</item>
-
-            <item name="android:letterSpacing">0.3</item>
-            <item name="android:textSize">20dp</item>
-            <item name="color">@color/sys_white</item>
-            <item name="android:background">@color/sys_blue</item>
-
+    <!-- 物料信息的Label样式 -->
+    <style name="textView_supply_staff_label">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">8dp</item>
+        <item name="android:textColor">@color/sys_white</item>
+        <item name="android:layout_marginHorizontal">5dp</item>
+    </style>
+    <!-- 物料信息的content样式 -->
+    <style name="textView_supply_staff_content">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">8dp</item>
+        <item name="android:textColor">@color/sys_white</item>
+        <item name="android:paddingStart">5dp</item>
     </style>
 
-    <style name="textView_noSoftInput" parent="Widget.AppCompat.EditText">
-        <item name="android:windowSoftInputMode">stateAlwaysHidden</item>
-        <item name="android:focusable">true</item>
-        <item name="android:focusableInTouchMode">true</item>
-
+    <!-- 任务基本信息的label-->
+    <style name="textView_taskDetail_label">
+        <item name="android:textSize">12dp</item>
+        <item name="android:letterSpacing">0.3</item>
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:textColor">@color/sys_blue</item>
+        <item name="android:paddingStart">5dp</item>
     </style>
+
+    <!-- 任务基本信息的内容 -->
+    <style name="textView_taskDetail_content">
+        <item name="android:textSize">12dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:letterSpacing">0.3</item>
+        <item name="android:textColor">@color/sys_blue</item>
+        <item name="android:paddingStart">5dp</item>
+    </style>
+
+    <!-- 物料线title -->
+    <style name="textView_supply_line_title">
+        <item name="android:textSize">13dp</item>
+        <item name="android:textColor">@color/sys_blue</item>
+        <item name="android:background">@color/sys_white</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:paddingEnd">5dp</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:letterSpacing">0.5</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- 物料数量 -->
+    <style name="textView_supply_staff_count">
+        <item name="android:textSize">13dp</item>
+        <item name="android:textColor">@color/sys_blue</item>
+        <item name="android:fontWeight">700</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:paddingEnd">5dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+    </style>
+
+    <!-- 流水线 ListView样式 -->
+    <style name="listView_supply_staff_line">
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:background">@drawable/list_view_border</item>
+    </style>
+
+
+    <!-- 登录lable -->
+    <style name="textView_login_label" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/sys_blue</item>
+        <item name="android:textSize">10dp</item>
+    </style>
+
+    <!-- 登录的输入 -->
+    <style name="editText_login_input" parent="Widget.AppCompat.EditText">
+        <item name="android:textSize">10dp</item>
+        <item name="android:textColor">@color/sys_blue</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">30dp</item>
+    </style>
+
 </resources>

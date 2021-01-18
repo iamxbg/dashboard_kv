@@ -1,8 +1,14 @@
 package api
 
+import android.os.Build
+import android.util.Base64
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.example.dashboard_kv.api.LoginApi
+import com.example.dashboard_kv.api.LoginReq
 import com.example.dashboard_kv.api.WebUtil
+import com.example.dashboard_kv.fragment.PUBLIC_KEY
+import com.example.dashboard_kv.util.EncryptUtil
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -10,7 +16,10 @@ import org.junit.runners.JUnit4
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.security.KeyFactory
+import java.security.spec.X509EncodedKeySpec
 import java.util.Date
+import javax.crypto.Cipher
 
 @RunWith(JUnit4::class)
 class LoginTest {
@@ -71,16 +80,16 @@ class LoginTest {
         TestPrinter.printResponseEntity(resp)
     }
 
-    @Test
-    fun testCaptcha():Unit {
-
-        val resp = loginApi.captchaImage().execute()
-
-        println(resp.body()!!.msg)
-        println(resp.body()!!.img)
-
-
-    }
+//    @Test
+//    fun testCaptcha():Unit {
+//
+//        val resp = loginApi.captchaImage().execute()
+//
+//        println(resp.body()!!.msg)
+//        println(resp.body()!!.img)
+//
+//
+//    }
 
     @Test
     fun testGetUserInfo(){
@@ -95,8 +104,67 @@ class LoginTest {
         Assert.assertNotNull(map.get("roles"))
         Assert.assertNotNull(map.get("permissions"))
 
+    }
+
+
+
+    @Test
+    fun testEncode(){
+        val code ="gyfa";
+        val uuid ="ba7bf33c34db41c5bf8a624a1424b4f6";
+
+        val username ="admin"
+        val password ="111111"
+
+        val encryptedPasswd = EncryptUtil.getEcryptedPassword(password)
+
+        println("encrypted-passwd:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+    }
+
+
+    @Test
+    fun testLogin(){
+
+        val code ="eegn";
+        val uuid ="7cb36f7ce8da40028d3d285d12c326c5";
+
+        val username ="admin"
+        val password ="111111"
+
+        val encryptedPasswd = EncryptUtil.getEcryptedPassword(password)
+
+        println("encrypted-passwd:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        println(encryptedPasswd)
+
+       val resp  =  loginApi.login(LoginReq(code,encryptedPasswd,username,uuid)).execute();
+
+        TestPrinter.printRespBasicInfo(resp)
 
     }
+
+    @Test
+    fun testLoginAndroid(){
+        val code ="ew84";
+        val uuid ="c949159254e74e4cabc0ce9c00820357";
+
+        val username ="admin"
+        val password ="111111"
+
+        val encryptedPasswd = EncryptUtil.getEcryptedPasswordAndroid(password)
+
+        println("encrypted-passwd:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        println(encryptedPasswd)
+
+        val resp  =  loginApi.login(LoginReq(code,encryptedPasswd,username,uuid)).execute();
+
+        TestPrinter.printRespBasicInfo(resp)
+    }
+
+
+
+
+
+
 
 
 

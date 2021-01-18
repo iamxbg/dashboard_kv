@@ -37,28 +37,7 @@ class ProjectApiTest {
         TestPrinter.printResponseEntity(resp)
     }
 
-    @Ignore
-    @Test
-    fun tsetListAllAsync(){
 
-        projectApi.projectList().enqueue(
-                object : Callback<ResponseEntity<ProjectInfo>> {
-                    override fun onResponse(call: Call<ResponseEntity<ProjectInfo>>, response: Response<ResponseEntity<ProjectInfo>>) {
-
-                        TestPrinter.printRespBasicInfo(response)
-                        TestPrinter.printRespBasicInfo(response)
-                    }
-
-                    override fun onFailure(call: Call<ResponseEntity<ProjectInfo>>, t: Throwable) {
-                        TODO("Not yet implemented")
-                    }
-
-                }
-        )
-
-        Thread.sleep(5000)
-
-    }
 
     @Test
     fun testListPageSize5(){
@@ -72,11 +51,22 @@ class ProjectApiTest {
     @Test
     fun testQueryByBussinessKey(){
         val bk = "projectApprovalWorkflow.1"
-        val resp = projectApi.projectQueryByBussinessKey(bk).execute();
+        val resp = projectApi.projectDetailQueryByBussinessKey(bk).execute();
 
         TestPrinter.printRespBasicInfo(resp)
         TestPrinter.printResponseEntity(resp)
 
+    }
+
+
+    @Test
+    fun testQueryProjectDetailById(){
+        val id = 1L;
+
+        val resp = projectApi.projectDetailQueryById(id).execute();
+
+        TestPrinter.printRespBasicInfo(resp)
+        TestPrinter.printResponseEntity(resp)
     }
 
 }

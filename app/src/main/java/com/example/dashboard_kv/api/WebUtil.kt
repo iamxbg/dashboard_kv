@@ -1,6 +1,7 @@
 package com.example.dashboard_kv.api
 
 import android.util.Log
+import android.widget.Toast
 import androidx.navigation.NavController
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.JsonObject
@@ -19,56 +20,32 @@ import java.net.SocketTimeoutException
 /**
  *  通用的Web访问实现工具类
  */
+
+var current_project_id:Long = 0L;
+
+var TOKEN:String? = "eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjdhMGU2N2FkLWRmNTgtNDlkOC05NTU3LTUwYmEwNzc0MjE5ZCJ9.NefG9Q1qfRWijJDVoy68kMsTfJyxZjZqLVKxYuYV1HTH6_gzW53FKldcPlDBwhUJNp6bVxgQhyWsxfCOawPkXQ"
+
 class WebUtil private constructor() {
-
-
-  //  lateinit var  navController:NavController
-
-
-
-
 
     companion object {
 
-        @JvmStatic
-         //var  token:String?=null;
-        var token:String = "eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjJmOWMxM2Q4LWVmY2YtNDVlMy1hYmRjLTUyZTg0ZjI2NWI0YiJ9.410q8caC_trnKmXyHjeCAcZ4gV-kd51NXsCVrZx8A6qybJV9plYOT-Azfq-J7SePqDy-y_L5SZwhlfwHz2Z3OA"
-//        lateinit var webUtil: WebUtil
-
-//        fun init(navController:NavController){
-//
-//            if(webUtil==null)
-//                synchronized(WebUtil::class){
-//                    if(webUtil==null){
-//                        webUtil =  WebUtil().apply{
-//                            this.navController = navController
-//                        }
-//                    }
-//
-//                }
-//
-//        }
 
         /**
          * 获取web服务
          */
 
         fun <T:WebApi> getService(api:Class<T> ):T{
-            //return retrofit.create(api::class.java)
             return retrofit.create(api)
         }
 
         object tokenIntercetpr : Interceptor {
-//
-//            @JvmStatic
-//            val token:String ="eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjMxMWJjYWNmLTk4MDMtNGQyZi05MDIzLTRlOTJkYWNmZjk4ZSJ9.GmldJu2Nk7lHTthEl7o5BzJzj5fVND_uvDMht5Xx6ADMFPOkRx5DAoRoSg6wmsAHuMrTbRsRCPPjAYjD-lp_0A"
 
             override fun intercept(chain: Interceptor.Chain): Response {
                 val req = chain.request()
 
                 //如何返回自身?
                 val reqBuilder = req.newBuilder().apply {
-                    this.addHeader("Authorization",token?:"")
+                    this.addHeader("Authorization", TOKEN?:"")
                     this.addHeader("accept","application/json")
                 }
 
@@ -79,27 +56,30 @@ class WebUtil private constructor() {
 
                     if(resp.code == 200){
 
-//                      val str = String(resp.body?.bytes()!!)
-//                      val respMap =  ObjectMapper().readValue(str,Map::class.java)
-//                        when(respMap.get("code") as Int){
-//                            401 -> Log.e("token-intercepter","XXX 认证失败，无法访问系统资源")
-//                        }
-
-
                         return resp;
 
-                    }else {
-
-                        when(resp.code){
-                            401 -> Log.e("token-intercepter","XXX 认证失败，无法访问系统资源")
-                        }
-
-
-                        Log.e("httpStatus:",resp.code.toString())
-                        println("erroCode:"+resp.code)
-                        TODO("根据返回的错误码，返回对应的错误信息!")
-
                     }
+//                    else {
+//
+//                        when(resp.code){
+//                            401 -> {
+//                                Log.e("token-intercepter","X:XX 认证失败，无法访问系统资源")
+//                                TODO("处理401错误")
+//                            }
+//                            403 -> {
+//
+//                                Log.e("请求被禁用,","URL:"+resp.request.url.toString())
+//
+//                            }
+//                            else ->{
+//                                TODO("根据返回的错误码，返回对应的错误信息!")
+//                            }
+//                        }
+//
+//                        return  resp;
+//
+//                    }
+                    return resp;
                 }catch (e: SocketTimeoutException){
                     TODO("提示超时信息")
                 }
@@ -134,17 +114,9 @@ class WebUtil private constructor() {
 
         fun <T:Any> preInteceptor(response: retrofit2.Response<ResponseEntity<T>>):retrofit2.Response<ResponseEntity<T>>? {
 
-//            when(response.body()?.code){
-//                401 -> {
-//                    Log.e("TOKEN过期:",response.body()?.msg)
-//                    null;
-//                }
-//
-//
-//            }
-
-            if(response.body()?.code == 401){
-                return null;
+            when(response.body()?.code) {
+                401 -> return null;
+                403 -> return null;
             }
 
             return response;

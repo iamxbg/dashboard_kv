@@ -2,6 +2,7 @@ package com.example.dashboard_kv.fragment.window
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +17,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.dashboard_kv.R
-import com.example.dashboard_kv.api.FtpFile
-import com.example.dashboard_kv.api.TaskModel
+import com.example.dashboard_kv.api.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 const val currentTaskInfoTitle="当前任务"
 const val currentTaskInfoWindowId="currentTaskInfo"
@@ -32,9 +35,11 @@ class CurrentTaskInfoWindow: BaseWindow(currentTaskInfoTitle, currentTaskInfoWin
         set(value) {}
 
 
+    companion object {
+        val taskApi = WebUtil.getService(TaskApi::class.java)
+    }
+
     private lateinit var viewModel:TaskModelViewModel;
-
-
     private lateinit var listView_tasks :ListView;
 
 
@@ -68,13 +73,9 @@ class CurrentTaskInfoWindow: BaseWindow(currentTaskInfoTitle, currentTaskInfoWin
                     tasks->
                     ( listView_tasks.adapter as ArrayAdapter<TaskModel>)
                         .apply {
-
                             this.clear()
                             this.addAll(tasks)
-
                         }
-
-
 
                 }
 
@@ -95,28 +96,35 @@ class CurrentTaskInfoWindow: BaseWindow(currentTaskInfoTitle, currentTaskInfoWin
             //get data
             val taskModel = getItem(position)
 
-            //inflater View
-            val cl = layoutInflater.inflate(R.layout.widget_task_basic_info,null);
+            return layoutInflater.inflate(R.layout.widget_task_basic_info,null)
+                    .apply {
+                        //行号
+                       findViewById<TextView>(R.id.tv_row_index)
+                                .apply {
+                                    text = (position +1).toString()
+                                }
+                        //任务名称
+                        findViewById<TextView>(R.id.tv_task_name)
+                                .apply {
+                                    text = taskModel.name
+                                }
 
-            cl.findViewById<TextView>(R.id.tv_row_index)
-                .apply {
-                    text = (position +1).toString()
-                }
-
-            cl.findViewById<TextView>(R.id.tv_task_name)
-                .apply {
-                    text = taskModel.name
-                }
-
-            cl.findViewById<TextView>(R.id.tv_task_detail)
-                .apply {
-                    setOnClickListener {
-                        v ->
-                            TODO("show task detail! use hostNavigationFragment to jump!")
+                        //任务详情
+                        findViewById<TextView>(R.id.tv_task_detail)
+                                .apply {
+                                    setOnClickListener {
+                                        v ->
+                                        try{
+                                            TODO("显示任务详情悬浮窗")
+                                        }
+                                        catch (e:NotImplementedError){
+                                            Log.e("TODO",e.message)
+                                            return@setOnClickListener
+                                        }
+                                    }
+                                }
                     }
-                }
 
-            return cl
         }
 
     }
@@ -124,17 +132,33 @@ class CurrentTaskInfoWindow: BaseWindow(currentTaskInfoTitle, currentTaskInfoWin
     override fun onStart() {
         super.onStart()
 
-        val t1 = TaskModel("",1,"","","","",
-        "","","","","任务1-1","","","","","",
-        "","","",1,"","","");
+        loadTasks()
 
-        val t2 = TaskModel("",1,"","","","",
-            "","","","","任务-2","","","","","",
-            "","","",1,"","","");
-
-        viewModel.addTask(t1)
-        viewModel.addTask(t2)
     }
+
+
+    private fun loadTasks():Unit{
+
+        taskApi.taskList()
+                .enqueue(object: Callback<ResponseEntity<TaskModel>> {
+
+                    override fun onResponse(call: Call<ResponseEntity<TaskModel>>, response: Response<ResponseEntity<TaskModel>>) {
+
+                        val files = response.body()?.rows as MutableList<TaskModel>
+
+                        viewModel.setTasks(files)
+
+
+                    }
+
+                    override fun onFailure(call: Call<ResponseEntity<TaskModel>>, t: Throwable) {
+                        //TODO("Not yet implemented")
+                        Log.e("loadFiles failure!",t.message)
+                    }
+                })
+
+    }
+
 }
 
 /**
@@ -149,6 +173,9 @@ class TaskModelViewModel:ViewModel(){
     }
 
 
+    /**
+     * 添加任务
+     */
     fun addTask(task:TaskModel){
 
         taskModels.value?.add(task)
@@ -156,6 +183,9 @@ class TaskModelViewModel:ViewModel(){
         taskModels.value = taskModels.value
     }
 
+    /**
+     * 添加任务s
+     */
     fun addTasks(vararg  tasks:TaskModel){
 
         for(t in tasks)
@@ -164,13 +194,13 @@ class TaskModelViewModel:ViewModel(){
         taskModels.value =taskModels.value
     }
 
-
+    /**
+     * 设置任务s
+     */
     fun setTasks(tasks:MutableList<TaskModel> ){
         taskModels.value = tasks
     }
 
 }
 
-
-// TODO: 2021/1/14  添加加载工程对应Tasks的逻辑！
 

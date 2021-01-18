@@ -1,6 +1,7 @@
 package com.example.dashboard_kv.widget
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,11 +28,15 @@ class ActionBar:Fragment() {
         configBtn = root?.findViewById<ImageView>(R.id.btn_config)!!
 
         configBtn.setOnClickListener { view ->
-            //Toast.makeText(context,"CLICK!",Toast.LENGTH_LONG).show()
-           // val navHostFragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment)
 
-            val navHosFragment = parentFragmentManager.findFragmentById(R.id.nav_host_fragment)
-            navHosFragment?.findNavController()?.navigate(R.id.action_unloginFragment_to_loginFragment)
+           // val navHostFragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment)
+            try{
+                val navHosFragment = parentFragmentManager.findFragmentById(R.id.nav_host_fragment)
+                navHosFragment?.findNavController()?.navigate(R.id.action_unloginFragment_to_loginFragment)
+            }catch(e:java.lang.IllegalArgumentException){
+                Log.e("跳转异常:",e.message)
+            }
+
 
 
         }

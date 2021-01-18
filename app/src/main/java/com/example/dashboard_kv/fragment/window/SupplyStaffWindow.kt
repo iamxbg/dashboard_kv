@@ -18,9 +18,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.dashboard_kv.R
-import com.example.dashboard_kv.api.FtpFile
-import com.example.dashboard_kv.api.SupplyStaff
-import com.example.dashboard_kv.api.TaskModel
+import com.example.dashboard_kv.api.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 const val supplyStaffTitle = "物料"
 const val supplyStaffWindowKey = "supplyStaff"
@@ -33,6 +34,13 @@ class SupplyStaffWindow: BaseWindow(supplyStaffTitle, supplyStaffWindowKey){
     override var rootLayoutId: Int
         get() = R.layout.fragment_supply_files
         set(value) {}
+
+
+    companion object
+    {
+        val supplyApi = WebUtil.getService(SuppliesApi::class.java)
+
+    }
 
     private lateinit var  root :ConstraintLayout
 
@@ -56,6 +64,9 @@ class SupplyStaffWindow: BaseWindow(supplyStaffTitle, supplyStaffWindowKey){
      */
     private lateinit var  checkStaffViewModel: SupplyStaffViewModel
 
+    private lateinit var  tv_planCount:TextView
+    private lateinit var  tv_checkCount:TextView
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -74,6 +85,7 @@ class SupplyStaffWindow: BaseWindow(supplyStaffTitle, supplyStaffWindowKey){
                                     this.clear()
                                     this.addAll(t)
 
+                                    tv_planCount.text = t?.size.toString()
                                 }
 
                         }
@@ -95,6 +107,8 @@ class SupplyStaffWindow: BaseWindow(supplyStaffTitle, supplyStaffWindowKey){
                                     this.clear()
                                     this.addAll(t)
 
+                                    tv_checkCount.text = t?.size.toString()
+
                                 }
                         }
 
@@ -107,6 +121,10 @@ class SupplyStaffWindow: BaseWindow(supplyStaffTitle, supplyStaffWindowKey){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         root  = super.onCreateView(inflater, container, savedInstanceState) as ConstraintLayout
+
+
+        tv_planCount = root.findViewById(R.id.textView_planCount)
+        tv_checkCount = root.findViewById(R.id.textView_checkCount)
 
         ListView_planSupplyStaffs = root.findViewById<ListView>(R.id.listView_supplies_plan)
             .apply {
@@ -197,74 +215,95 @@ class SupplyStaffWindow: BaseWindow(supplyStaffTitle, supplyStaffWindowKey){
             return   layoutInflater.inflate(R.layout.widget_supply_staff,null)
                 .apply {
 
-                    // why tag bind failed here!
-                    // 在v.tag中的值为null
-                   // tag = staff
+                    //设置拖拽事件
+                    setOnDragListener { v, event ->
 
-                    this.findViewById<TextView>(R.id.textView_staff_name)
-                        .apply {
-                            text = staff.suppliesName
+                        val name = staff.suppliesName
 
+                        var actionStr:String =""
 
-
-                            //设置拖拽事件
-                            setOnDragListener { v, event ->
-
-                                //val name = (v.tag as SupplyStaff).suppliesName
-                                val name = staff.suppliesName
-
-                                var actionStr:String =""
-
-                                when(event.action){
-                                    DragEvent.ACTION_DRAG_STARTED -> {
-                                        actionStr = "STARTED"
-                                    }
-
-                                    DragEvent.ACTION_DRAG_ENTERED ->{
-                                        actionStr = "ENTERED"
-                                    }
-
-                                    DragEvent.ACTION_DRAG_LOCATION ->{
-                                        actionStr = "LOCATION"
-                                    }
-
-                                    DragEvent.ACTION_DRAG_EXITED ->{
-                                        actionStr = "EXITED"
-                                    }
-
-                                    DragEvent.ACTION_DROP ->{
-                                        actionStr = "DROP"
-                                    }
-
-                                    DragEvent.ACTION_DRAG_ENDED -> {
-                                        actionStr = "END"
-                                    }
-                                }
-
-                                Log.d("view-$name action- $actionStr. POS:","x-${event.x} y-${event.y}")
-
-                                true
+                        when(event.action){
+                            DragEvent.ACTION_DRAG_STARTED -> {
+                                actionStr = "STARTED"
                             }
 
+                            DragEvent.ACTION_DRAG_ENTERED ->{
+                                actionStr = "ENTERED"
+                            }
 
+                            DragEvent.ACTION_DRAG_LOCATION ->{
+                                actionStr = "LOCATION"
+                            }
 
-                            setOnLongClickListener { v->
-                                // here v.tag is null
-                               //val supplyStaff = v.tag as? SupplyStaff;
-                                val str = staff?.suppliesNumber.toString()
-                                val item = ClipData.Item(str)
+                            DragEvent.ACTION_DRAG_EXITED ->{
+                                actionStr = "EXITED"
+                            }
 
-                                var dragData = ClipData(ClipDescription(
-                                    listViewType,
-                                    arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)) ,item)
+                            DragEvent.ACTION_DROP ->{
+                                actionStr = "DROP"
+                            }
 
-                                v.startDragAndDrop(dragData,View.DragShadowBuilder(this),staff,0)
-
-                                true;
+                            DragEvent.ACTION_DRAG_ENDED -> {
+                                actionStr = "END"
                             }
                         }
 
+                        Log.d("view-$name action- $actionStr. POS:","x-${event.x} y-${event.y}")
 
+                        true
+                    }
+
+
+                    setOnLongClickListener { v->
+                        // here v.tag is null
+                        //val supplyStaff = v.tag as? SupplyStaff;
+                        val str = staff?.suppliesNumber.toString()
+                        val item = ClipData.Item(str)
+
+                        var dragData = ClipData(ClipDescription(
+                            listViewType,
+                            arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)) ,item)
+
+                        v.startDragAndDrop(dragData,View.DragShadowBuilder(this),staff,0)
+
+                        true;
+                    }
+
+                    //物料编号
+                    findViewById<TextView>(R.id.textView_supply_code_content)
+                        .text = staff.suppliesCode
+                    //物料名称
+                    findViewById<TextView>(R.id.textView_supply_name_content)
+                        .text = staff.suppliesName
+
+                    //规格/型号
+                    findViewById<TextView>(R.id.textView_specification_content)
+                        .text = staff.specification
+
+                    //批次
+                    findViewById<TextView>(R.id.textView_batchNumber_content)
+                        .text = staff.batchNumber
+
+
+                    //数量
+                    findViewById<TextView>(R.id.textView_supplyNumber_content)
+                        .text = staff.suppliesNumber
+
+                    //单位
+                    findViewById<TextView>(R.id.textView_supplyUnit_content)
+                        .text = staff.suppliesUnit
+
+                    //出库指令号
+                    findViewById<TextView>(R.id.textView_exportNum_content)
+                        .text = staff.exportCommendNum
+
+                    //出库状态
+                    findViewById<TextView>(R.id.textView_export_status_content)
+                        .text = staff.exportStatus.toString()
+
+                    //段位
+                    findViewById<TextView>(R.id.textView_gradingNumber_content)
+                        .text =staff.gradingNumber
 
                 }
 
@@ -277,19 +316,32 @@ class SupplyStaffWindow: BaseWindow(supplyStaffTitle, supplyStaffWindowKey){
     override fun onStart() {
         super.onStart()
 
-        val s1 = SupplyStaff(1,"","","","","","","","",
-        "","","","",1,"","","","",
-            11,
-        11,"","","物料-2","","","","","",11)
 
-        val s2 = SupplyStaff(1,"","","","","","","","",
-            "","","","",2,"","","","",
-            11,
-            11,"","","物料-1","","","","","",11)
+        supplyApi.infoList()
+            .enqueue(object : Callback<ResponseEntity<SupplyStaff>> {
+                override fun onResponse(
+                    call: Call<ResponseEntity<SupplyStaff>>,
+                    response: Response<ResponseEntity<SupplyStaff>>
+                ) {
+
+                    val rows = response.body()?.rows
+
+                    planStaffViewModel.addSupplyStaffs(rows!!)
+                }
+
+                override fun onFailure(call: Call<ResponseEntity<SupplyStaff>>, t: Throwable) {
+                    try {
+                        TODO("Not yet implemented")
+                    }catch (e: kotlin.NotImplementedError){
+                        Log.e("ERROR!",e.message)
+                    }
+
+                }
+
+            })
 
 
-        planStaffViewModel.addSupplyStaff(s1)
-        planStaffViewModel.addSupplyStaff(s2)
+
 
     }
 

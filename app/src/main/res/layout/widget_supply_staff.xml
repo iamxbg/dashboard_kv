@@ -4,22 +4,167 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="30dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/sys_blue"
     android:layout_gravity="center_horizontal">
 
-    <TextView
-        android:id="@+id/textView_staff_name"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/fastlane_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
 
-        android:textSize="20dp"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"></TextView>
+    <!-- 图标 -->
+    <ImageView
+        android:id="@+id/imageView_staff_gear"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/staff_gear"
+        android:scaleType="fitCenter"
+        android:layout_gravity="left"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <!-- 物料编号 -->
+    <TextView
+        android:id="@+id/textView_supply_code_label"
+        app:layout_constraintTop_toBottomOf="@id/imageView_staff_gear"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="物料编号"
+        style="@style/textView_supply_staff_label"
+        />
+
+    <TextView
+        android:id="@+id/textView_supply_code_content"
+        style="@style/textView_supply_staff_content"
+        app:layout_constraintLeft_toRightOf="@id/textView_supply_code_label"
+        app:layout_constraintTop_toBottomOf="@id/imageView_staff_gear"
+       />
+
+    <!-- 物料名称 -->
+    <TextView
+        android:id="@+id/textView_supply_name_label"
+        style="@style/textView_supply_staff_label"
+        android:text="物料名称"
+        android:textColor="@color/sys_white"
+        app:layout_constraintTop_toBottomOf="@id/textView_supply_code_label"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/textView_supply_name_content"
+        style="@style/textView_supply_staff_content"
+        app:layout_constraintLeft_toRightOf="@id/textView_supply_name_label"
+
+        app:layout_constraintTop_toBottomOf="@id/textView_supply_code_content"/>
+
+    <!-- 规格型号 -->
+    <TextView
+        android:id="@+id/textView_specification_label"
+        style="@style/textView_supply_staff_label"
+        android:text="规格/型号"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_supply_name_label"
+        />
+
+    <TextView
+        android:id="@+id/textView_specification_content"
+        style="@style/textView_supply_staff_content"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@id/textView_specification_label"
+        app:layout_constraintTop_toBottomOf="@id/textView_supply_name_label"/>
+
+
+    <!-- 批次/件号 -->
+    <TextView
+        android:id="@+id/textView_batchNumber_label"
+        style="@style/textView_supply_staff_label"
+        android:text="批次/件号"
+        app:layout_constraintLeft_toRightOf="@id/textView_specification_content"
+        app:layout_constraintTop_toBottomOf="@id/textView_supply_name_content"
+        />
+
+    <TextView
+        android:id="@+id/textView_batchNumber_content"
+        app:layout_constraintHorizontal_weight="1"
+        style="@style/textView_supply_staff_content"
+        app:layout_constraintLeft_toRightOf="@id/textView_batchNumber_label"
+        app:layout_constraintTop_toBottomOf="@id/textView_supply_name_content"
+
+        />
+
+    <!-- 数量 -->
+    <TextView
+        android:id="@+id/textView_supplyNumber_label"
+        style="@style/textView_supply_staff_label"
+        android:text="数量"
+
+        app:layout_constraintTop_toBottomOf="@id/textView_specification_label"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/textView_supplyNumber_content"
+        style="@style/textView_supply_staff_content"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@id/textView_supplyNumber_label"
+        app:layout_constraintTop_toBottomOf="@id/textView_specification_label"
+        />
+
+    <!-- 单位 -->
+    <TextView
+        android:id="@+id/textView_supplyUnit_label"
+        style="@style/textView_supply_staff_label"
+        android:text="单位"
+        app:layout_constraintLeft_toRightOf="@id/textView_supplyNumber_content"
+        app:layout_constraintTop_toBottomOf="@id/textView_specification_label"/>
+
+    <TextView
+        android:id="@+id/textView_supplyUnit_content"
+        style="@style/textView_supply_staff_content"
+        app:layout_constraintLeft_toRightOf="@id/textView_supplyUnit_label"
+        app:layout_constraintTop_toBottomOf="@id/textView_specification_label"/>
+
+    <!--出库指令号-->
+    <TextView
+
+        android:id="@+id/textView_exportNum_label"
+        style="@style/textView_supply_staff_label"
+        android:text="出库指令号"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_supplyUnit_label"/>
+
+    <TextView
+        android:id="@+id/textView_exportNum_content"
+        style="@style/textView_supply_staff_content"
+        app:layout_constraintLeft_toRightOf="@id/textView_exportNum_label"
+        app:layout_constraintTop_toBottomOf="@id/textView_supplyUnit_label"/>
+
+    <!--出库状态-->
+    <TextView
+        android:id="@+id/textView_export_status_label"
+        style="@style/textView_supply_staff_label"
+        android:text="出库状态"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_exportNum_content"/>
+
+    <TextView
+        android:id="@+id/textView_export_status_content"
+        app:layout_constraintLeft_toRightOf="@id/textView_export_status_label"
+        style="@style/textView_supply_staff_content"
+        app:layout_constraintTop_toBottomOf="@id/textView_exportNum_content"/>
+
+    <!-- 段位 -->
+    <TextView
+        android:id="@+id/textView_gradingNumber_label"
+        style="@style/textView_supply_staff_label"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="段位"
+        app:layout_constraintTop_toBottomOf="@id/textView_export_status_label"/>
+
+    <TextView
+        android:id="@+id/textView_gradingNumber_content"
+        app:layout_constraintLeft_toRightOf="@id/textView_gradingNumber_label"
+        style="@style/textView_supply_staff_content"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_export_status_label"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

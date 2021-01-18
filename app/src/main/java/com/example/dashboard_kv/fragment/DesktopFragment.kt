@@ -23,19 +23,6 @@ class DesktopFragment: Fragment() {
 
         val root:ViewGroup = inflater.inflate(R.layout.fragment_desktop,container,false) as ViewGroup;
 
-//        childFragmentManager.beginTransaction().replace(
-//            R.id.fragment_left, ProjectListWindow())
-//            .commit()
-//
-//        childFragmentManager.beginTransaction().replace(
-//            R.id.fragment_right_top,
-//            ProjectOrderWindow()
-//        ).commit()
-//
-//         childFragmentManager.beginTransaction().replace(
-//            R.id.fragment_right_bottom,
-//            CurrentTaskInfoWindow()
-//        ).commit()
 
         return root;
 

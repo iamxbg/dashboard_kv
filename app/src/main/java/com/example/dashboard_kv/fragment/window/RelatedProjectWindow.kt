@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.annotation.NonNull
@@ -45,7 +46,7 @@ class RelatedProjectWindow: BaseWindow(relatedProjectTitle, relatedProjectWindow
 
         return   (super.onCreateView(inflater, container, savedInstanceState) as ViewGroup)
             .apply{
-                listView_projectInfo =  this.findViewById<ListView>(R.id.listView_projectInfo)
+                listView_projectInfo =  this.findViewById<ListView>(R.id.listView_related_projects)
                     .apply {
                         adapter = RelationProjectArrayAdapter(requireContext(),R.layout.list_view_project_info)
 
@@ -90,16 +91,40 @@ class RelatedProjectWindow: BaseWindow(relatedProjectTitle, relatedProjectWindow
 
             return layoutInflater.inflate(R.layout.widget_project_info,null)
                 .apply {
-                   findViewById<TextView>(R.id.textView_project_name)
+
+                    //行号
+                    findViewById<TextView>(R.id.textView_rowIndex)
+                            .text = (position+1).toString()
+
+                    //项目名称
+                    findViewById<TextView>(R.id.textView_project_name)
                        .apply {
 
+                           this.text = projectInfo.name
+
+                           //点击调转到工程详情
                            setOnClickListener {
 
-                               val navHosFragment = parentFragmentManager.findFragmentById(R.id.nav_host_fragment)
+                               val navHosFragment = parentFragment!!.parentFragmentManager.findFragmentById(R.id.nav_host_fragment)
                                navHosFragment?.findNavController()?.navigate(R.id.action_desktopFragment_to_projectDetailFragment)
                            }
 
                        }
+
+//                    findViewById<ProgressBar>(R.id.progressBar_projectStatus)
+//                        .apply {
+//
+//
+//                        }
+
+                    var score:Int = 0
+//                            if(projectInfo.status != null && !projectInfo.status.equals(""))
+//
+//                             score = ((projectInfo.status.toDouble()/8)*100).toInt()
+//
+//                            progress = score;
+                    findViewById<TextView>(R.id.tv_process_score)
+                        .text = score.toString()
                 }
 
         }
@@ -130,10 +155,6 @@ class RelatedProjectWindow: BaseWindow(relatedProjectTitle, relatedProjectWindow
                         return
                     }else{
 
-
-
-
-                        Log.d("project-API:",response.message())
                         val projects = response.body()?.rows as MutableList<ProjectInfo>
 
                         viewModel.setProjects(projects)
@@ -143,8 +164,13 @@ class RelatedProjectWindow: BaseWindow(relatedProjectTitle, relatedProjectWindow
                 }
 
                 override fun onFailure(call: Call<ResponseEntity<ProjectInfo>>, t: Throwable) {
-                    Log.e("loadFiles failure!",t.message)
-                    TODO("Not yet implemented")
+
+                    try{
+                        TODO("Not yet implemented")
+                    }catch (e:kotlin.NotImplementedError){
+                        Log.e("loadFiles failure!",t.message)
+                    }
+
 
 
                 }

@@ -25,11 +25,21 @@ class TaskApiTest {
     @Test
     fun testTaskDetail(){
 
-        val id =7.toLong();
+        val id =14.toLong();
         val resp = api.taskDetail(id).execute()
 
         TestPrinter.printRespBasicInfo(resp)
         TestPrinter.printResponseEntity(resp)
+    }
+
+
+    @Test
+    fun testTaskRangingList(){
+
+        val resp = api.taskRankingList().execute();
+
+        TestPrinter.printResponseEntity(resp)
+        TestPrinter.printRespBasicInfo(resp)
     }
 
 }

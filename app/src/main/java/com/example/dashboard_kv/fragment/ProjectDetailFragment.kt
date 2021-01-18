@@ -21,7 +21,7 @@ class ProjectDetailFragment: Fragment() {
 
         super.onCreateView(inflater, container, savedInstanceState);
 
-        val root: ViewGroup = inflater.inflate(R.layout.fragment_desktop,container,false) as ViewGroup;
+        val root: ViewGroup = inflater.inflate(R.layout.fragment_project_detail,container,false) as ViewGroup;
 
 //        childFragmentManager.beginTransaction().replace(
 //            R.id.fragment_left, ProjectListWindow())

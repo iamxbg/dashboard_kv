@@ -3,48 +3,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_gradient_start"
+    android:padding="2dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <TextView
+        android:id="@+id/textView_relatedProject_window_title"
+        style="@style/tv_window_title"
+        android:text="物料"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_supplies_plan"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/search_opaque"
+        android:background="@color/sys_white"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/ll_project_basic_info"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/cl_supplies_check"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_relatedProject_window_title"
         app:layout_constraintVertical_bias="1.0"
         app:layout_constraintVertical_weight="1">
 
+        <!-- 计划 -->
         <TextView
 
             android:id="@+id/tv_tag_plan"
-            style="@style/textView_supply_staff_tag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="20dp"
-
+            style="@style/textView_supply_line_title"
             android:text="计划"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"/>
 
-        </TextView>
+        <!-- 计划->数量 -->
+        <TextView
+            android:id="@+id/textView_planCount"
+            style="@style/textView_supply_staff_count"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tv_tag_plan"
+            />
+
+
 
         <ListView
             android:id="@+id/listView_supplies_plan"
+            style="@style/listView_supply_staff_line"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/sys_blue"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="10dp"
+            android:background="@color/background_gradient_end"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="10dp"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,36 +74,53 @@
         android:orientation="vertical"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@id/cl_supplies_plan"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/ll_project_basic_info"
-        android:background="#34C53A"
+        app:layout_constraintTop_toBottomOf="@id/textView_relatedProject_window_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/sys_white"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintVertical_weight="1">
 
+        <!-- 审核 -->
         <TextView
             android:id="@+id/tv_tag_check"
-            style="@style/textView_supply_staff_tag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            style="@style/textView_supply_line_title"
+            android:layout_marginTop="10dp"
 
             android:text="验收"
-
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginLeft="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
         </TextView>
 
+        <!-- 计划->数量 -->
+        <TextView
+            android:id="@+id/textView_checkCount"
+            style="@style/textView_supply_staff_count"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tv_tag_check"
+            />
+
+        <ImageView
+            android:id="@+id/imageView_check_buy_car"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/buy_car"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"></ImageView>
+
         <ListView
             android:id="@+id/listView_supplies_check"
+            style="@style/listView_supply_staff_line"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/sys_blue"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="10dp"
+            android:background="@color/background_gradient_end"
+
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="10dp"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
@@ -99,21 +129,5 @@
         </ListView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
-
-    <LinearLayout
-        android:id="@+id/ll_project_basic_info"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:orientation="horizontal"
-        android:background="@color/dev_gray"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-    </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

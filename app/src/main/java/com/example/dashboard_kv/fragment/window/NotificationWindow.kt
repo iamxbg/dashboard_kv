@@ -15,9 +15,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.dashboard_kv.R
-import com.example.dashboard_kv.api.FtpFile
-import com.example.dashboard_kv.api.Notification
-import com.example.dashboard_kv.api.SupplyStaff
+import com.example.dashboard_kv.api.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 const val notification_title:String = "通知"
 const val notification_windowKey : String ="notification"
@@ -27,6 +28,11 @@ class NotificationWindow(): BaseWindow(notification_title, notification_windowKe
     override var rootLayoutId: Int
         get() = R.layout.fragment_notification
         set(value) {}
+
+
+    companion object {
+        val notificationApi = WebUtil.getService(NotificationApi::class.java)
+    }
 
 
     lateinit var  viewModel:NotificationViewModel
@@ -95,6 +101,12 @@ class NotificationWindow(): BaseWindow(notification_title, notification_windowKe
                             }
                         }
 
+                    //日期
+                    findViewById<TextView>(R.id.textView_date)
+                        .apply {
+                            text = notification.createTime
+                        }
+
 
                 }
 
@@ -124,15 +136,23 @@ class NotificationWindow(): BaseWindow(notification_title, notification_windowKe
     override fun onStart() {
         super.onStart()
 
-        val n1 = Notification("","","","","","",23,
-        1,"","","","","关于项目制改革通知事项","","",1)
 
-        val n2 = Notification("","","","","","",5,
-            2,"","","","","关于春节放假通知","","",2)
+        notificationApi.getNotifications("1")
+            .enqueue(object: Callback<ResponseEntity<Notification>> {
+                override fun onResponse(
+                    call: Call<ResponseEntity<Notification>>,
+                    response: Response<ResponseEntity<Notification>>
+                ) {
 
+                    if(response.body()?.rows?.size!!>0)
+                     viewModel.addNotifications(response.body()?.rows!!)
+                }
 
-        viewModel.addNotifications(n1,n2)
+                override fun onFailure(call: Call<ResponseEntity<Notification>>, t: Throwable) {
 
+                }
+
+            })
 
     }
 
@@ -160,8 +180,10 @@ class NotificationWindow(): BaseWindow(notification_title, notification_windowKe
           notifications.value = notifications.value
       }
 
-      fun addNotification(n:Notification ) {
-          notifications.value?.add(n)
+      fun addNotifications(ns:List<Notification>)  {
+          for(n in ns){
+              notifications.value?.add(n)
+          }
 
           notifications.value = notifications.value
       }
