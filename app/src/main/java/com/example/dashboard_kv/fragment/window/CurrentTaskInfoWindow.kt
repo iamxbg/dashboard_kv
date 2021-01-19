@@ -144,6 +144,8 @@ class CurrentTaskInfoWindow: BaseWindow(currentTaskInfoTitle, currentTaskInfoWin
 
                     override fun onResponse(call: Call<ResponseEntity<TaskModel>>, response: Response<ResponseEntity<TaskModel>>) {
 
+
+
                         val files = response.body()?.rows as MutableList<TaskModel>
 
                         viewModel.setTasks(files)

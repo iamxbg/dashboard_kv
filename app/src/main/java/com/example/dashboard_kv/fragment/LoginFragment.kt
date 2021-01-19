@@ -24,9 +24,6 @@ import com.example.dashboard_kv.util.EncryptUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.security.KeyFactory
-import java.security.spec.X509EncodedKeySpec
-import javax.crypto.Cipher
 
 /**
  * 加密公钥
@@ -131,15 +128,6 @@ class LoginFragment:Fragment() {
 
               this.setOnClickListener { v->
 
-//                  if(uuid == null){
-//                      //无法加载验证码情况下直接跳转，这是有问题的！！！
-//
-//                      val navHosFragment = parentFragmentManager.findFragmentById(R.id.nav_host_fragment)
-//                      navHosFragment?.findNavController()?.navigate(R.id.action_loginFragment_to_desktopFragment)
-//
-//                      return@setOnClickListener
-//                  }
-
                   Log.i("登录:", "----------------------->")
 
                     //用户名
@@ -168,7 +156,7 @@ class LoginFragment:Fragment() {
                   println("code:$code ,password:$passwordText username:$username, uuid:$uuid")
 
 
-                  val encryptedPasswd = EncryptUtil.getEcryptedPassword("111111")
+                  val encryptedPasswd = EncryptUtil.getEcryptedPasswordAndroid("111111")
 
                   val loginReq =  LoginReq(code, encryptedPasswd, "admin", uuid!!)
                   loginApi.login(loginReq)
@@ -182,6 +170,7 @@ class LoginFragment:Fragment() {
 
                                       when (response.body()?.code) {
                                           200 -> {
+
                                               TOKEN = response.body()?.token!!
 
                                               val navHosFragment = parentFragmentManager.findFragmentById(R.id.nav_host_fragment)

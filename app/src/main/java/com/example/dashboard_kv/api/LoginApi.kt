@@ -92,7 +92,8 @@ data class RoleModel(
 data class LoginReq(public val code:String,
                     public val password:String,
                     public val username:String,
-                    public val uuid:String)
+                    public val uuid:String,
+                    public val loginOs:String ="ANDROID")
 
 /**
  * 请求返回值

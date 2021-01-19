@@ -126,10 +126,11 @@ class TaskOrderWindow: BaseWindow(project_order_title, project_order_windowKey) 
         taskApi.taskRankingList()
                 .enqueue(object:Callback<ResponseEntity<TaskModel>>{
                     override fun onResponse(call: Call<ResponseEntity<TaskModel>>, response: Response<ResponseEntity<TaskModel>>) {
-
-                        val tasks = response.body()?.rows as MutableList<TaskModel>
-
-                        taskOrderViewModel.setTasks(tasks)
+//
+//                        TODO( "null cannot be cast to non-null type kotlin.collections.MutableList<com.example.dashboard_kv.api.TaskModel")
+//                        val tasks = response.body()?.rows as MutableList<TaskModel>
+//
+//                        taskOrderViewModel.setTasks(tasks)
 
                     }
 

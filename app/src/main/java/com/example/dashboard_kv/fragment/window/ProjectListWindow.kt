@@ -76,12 +76,12 @@ class ProjectListWindow: BaseWindow(projectListTitle, projectListWindowId){
                         }else{
 
 
-
-
-                           Log.d("project-API:",response.message())
-                           val projects = response.body()?.rows as MutableList<ProjectInfo>
-
-                           projectInfoViewModel.addProjects(projects)
+//
+//
+//                           Log.d("project-API:",response.message())
+//                           val projects = response.body()?.rows as MutableList<ProjectInfo>
+//
+//                           projectInfoViewModel.addProjects(projects)
                         }
 
 

@@ -144,8 +144,8 @@ class NotificationWindow(): BaseWindow(notification_title, notification_windowKe
                     response: Response<ResponseEntity<Notification>>
                 ) {
 
-                    if(response.body()?.rows?.size!!>0)
-                     viewModel.addNotifications(response.body()?.rows!!)
+//                    if(response.body()?.rows?.size!!>0)
+//                     viewModel.addNotifications(response.body()?.rows!!)
                 }
 
                 override fun onFailure(call: Call<ResponseEntity<Notification>>, t: Throwable) {
