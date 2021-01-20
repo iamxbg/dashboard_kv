@@ -37,4 +37,15 @@ class SuppliesApiTest {
     }
 
 
+    @Test
+    fun getInfoListByExportStatus(){
+
+        val call = api.infoList(listOf("1"))
+        val resp = call.execute();
+
+        TestPrinter.printRespBasicInfo(resp)
+        TestPrinter.printResponseEntity(resp)
+    }
+
+
 }

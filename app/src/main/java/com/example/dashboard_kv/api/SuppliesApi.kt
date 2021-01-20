@@ -31,6 +31,9 @@ interface SuppliesApi:WebApi {
     @GET("dev-api/supplies/info/list")
     fun infoList():Call<ResponseEntity<SupplyStaff>>
 
+    @GET("dev-api/supplies/info/list")
+    fun infoList(@Query("exportStatus") exportStatusStr:List<String>):Call<ResponseEntity<SupplyStaff>>
+
 }
 
 /**

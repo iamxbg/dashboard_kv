@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.dashboard_kv.R
 import com.example.dashboard_kv.api.*
-import org.w3c.dom.Text
+import com.example.dashboard_kv.fragment.CURRENT_TASK_ID
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,12 +22,12 @@ const val title ="任务基本信息"
 const val windowKey = "taskInfo"
 
 
-var current_task_id:Long =14;
+
 
 class TaskDetailWindow: BaseWindow(title, windowKey){
 
     override var rootLayoutId: Int
-        get() = R.layout.fragment_task_detail
+        get() = R.layout.fragment_window_task_detail
         set(value) {}
 
     companion object{
@@ -63,6 +64,16 @@ class TaskDetailWindow: BaseWindow(title, windowKey){
                     tv_assemble = findViewById(R.id.textView_assemble_content)
                     tv_check = findViewById(R.id.textView_check_content)
 
+
+                    findViewById<ImageButton>(R.id.imageButton_refresh_window)
+                            .apply {
+
+                               setOnClickListener {
+                                   loadTaskDeatail()
+                               }
+
+                            }
+
                 }
 
     }
@@ -75,17 +86,19 @@ class TaskDetailWindow: BaseWindow(title, windowKey){
                 .apply {
                     task.observe(viewLifecycleOwner,object:Observer<TaskModel>{
                         override fun onChanged(t: TaskModel?) {
+                            if(t!=null){
+                                tv_projectNo.text = t!!.projectNo
+                                tv_projectName.text = t!!.name
+                                tv_bussinessKey.text = t!!.businessKey
+                                tv_instanceId.text = t!!.instanceId
+                                tv_createTime.text = t!!.createTime
+                                tv_taskType.text = TaskType.getDescByCode(t!!.taskType.toInt())
+                                tv_taskStatus.text = TaskStatus.getDescByCode(t!!.status.toInt())
+                                tv_delivery.text = t!!.deliveryUserName
+                                tv_assemble.text = t!!.assembleUserName
+                                tv_check.text = t!!.qaUserName
+                            }
 
-                            tv_projectNo.text = t!!.projectNo
-                            tv_projectName.text = t!!.name
-                            tv_bussinessKey.text = t!!.businessKey
-                            tv_instanceId.text = t!!.instanceId
-                            tv_createTime.text = t!!.createTime
-                            tv_taskType.text = TaskType.getDescByCode(t!!.taskType.toInt())
-                            tv_taskStatus.text = TaskStatus.getDescByCode(t!!.status.toInt())
-                            tv_delivery.text = t!!.deliveryUserName
-                            tv_assemble.text = t!!.assembleUserName
-                            tv_check.text = t!!.qaUserName
 
                         }
 
@@ -98,12 +111,17 @@ class TaskDetailWindow: BaseWindow(title, windowKey){
     override fun onStart() {
         super.onStart()
 
+        loadTaskDeatail()
+    }
 
 
-        taskApi.taskDetail(current_task_id)
+    fun loadTaskDeatail(){
+
+        taskApi.taskDetail(CURRENT_TASK_ID!!)
                 .enqueue(object : Callback<ResponseEntity<TaskModel>> {
                     override fun onResponse(call: Call<ResponseEntity<TaskModel>>, response: Response<ResponseEntity<TaskModel>>) {
 
+                        taskViewModel.task.value = null;
                         taskViewModel.setTask(response.body()?.data!!)
 
                     }
@@ -115,8 +133,6 @@ class TaskDetailWindow: BaseWindow(title, windowKey){
 
                 })
     }
-
-
 
 }
 

@@ -6,18 +6,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.LinearLayout
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.LayoutRes
 import androidx.annotation.NonNull
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.dashboard_kv.R
 import com.example.dashboard_kv.api.*
+import com.example.dashboard_kv.fragment.CURRENT_TASK_ID
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,7 +30,7 @@ const val currentTaskInfoWindowId="currentTaskInfo"
 class CurrentTaskInfoWindow: BaseWindow(currentTaskInfoTitle, currentTaskInfoWindowId){
 
     override var rootLayoutId: Int
-        get() = R.layout.fragment_current_task_info
+        get() = R.layout.fragment_window_task_info
         set(value) {}
 
 
@@ -54,6 +53,17 @@ class CurrentTaskInfoWindow: BaseWindow(currentTaskInfoTitle, currentTaskInfoWin
 
                 listView_tasks.adapter = this;
             }
+
+        /**
+         * 刷新数据
+         */
+        root.findViewById<ImageButton>(R.id.imageButton_refresh_window)
+                .apply {
+
+                    setOnClickListener {
+                        loadTasks()
+                    }
+                }
 
 
         return root;
@@ -98,24 +108,42 @@ class CurrentTaskInfoWindow: BaseWindow(currentTaskInfoTitle, currentTaskInfoWin
 
             return layoutInflater.inflate(R.layout.widget_task_basic_info,null)
                     .apply {
-                        //行号
-                       findViewById<TextView>(R.id.tv_row_index)
+                        //项目编号
+                       findViewById<TextView>(R.id.tv_project_no)
                                 .apply {
-                                    text = (position +1).toString()
+                                    text = taskModel.projectNo
                                 }
-                        //任务名称
-                        findViewById<TextView>(R.id.tv_task_name)
+                        //任务编号
+                        findViewById<TextView>(R.id.tv_task_no)
                                 .apply {
-                                    text = taskModel.name
+                                    text = taskModel.projectTaskNo
+                                }
+
+                        //创建时间
+                        findViewById<TextView>(R.id.tv_createTime)
+                                .apply {
+                                    text= taskModel.createTime
                                 }
 
                         //任务详情
                         findViewById<TextView>(R.id.tv_task_detail)
                                 .apply {
+
+                                    if(CURRENT_TASK_ID!=null){
+                                        visibility = View.INVISIBLE
+                                    }
+
                                     setOnClickListener {
                                         v ->
                                         try{
-                                            TODO("显示任务详情悬浮窗")
+
+
+
+                                            CURRENT_TASK_ID = taskModel.id
+
+                                            val navHosFragment = parentFragment!!.parentFragmentManager.findFragmentById(R.id.nav_host_fragment)
+                                            navHosFragment?.findNavController()?.navigate(R.id.action_desktopFragment_to_projectDetailFragment)
+
                                         }
                                         catch (e:NotImplementedError){
                                             Log.e("TODO",e.message)
@@ -144,17 +172,15 @@ class CurrentTaskInfoWindow: BaseWindow(currentTaskInfoTitle, currentTaskInfoWin
 
                     override fun onResponse(call: Call<ResponseEntity<TaskModel>>, response: Response<ResponseEntity<TaskModel>>) {
 
-
+                        viewModel.taskModels?.value?.clear()
 
                         val files = response.body()?.rows as MutableList<TaskModel>
-
-                        viewModel.setTasks(files)
+                        if(files!=null) viewModel.setTasks(files)
 
 
                     }
 
                     override fun onFailure(call: Call<ResponseEntity<TaskModel>>, t: Throwable) {
-                        //TODO("Not yet implemented")
                         Log.e("loadFiles failure!",t.message)
                     }
                 })

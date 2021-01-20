@@ -54,4 +54,13 @@
         app:layout_constraintTop_toBottomOf="@+id/textView_notification_title" />
 
 
+    <TextView
+        android:background="@color/sys_blue"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+
+        app:layout_constraintBottom_toBottomOf="parent">
+
+    </TextView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

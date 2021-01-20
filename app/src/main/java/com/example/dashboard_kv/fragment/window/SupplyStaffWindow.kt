@@ -32,7 +32,7 @@ const val supplyStaffWindowKey = "supplyStaff"
 class SupplyStaffWindow: BaseWindow(supplyStaffTitle, supplyStaffWindowKey){
 
     override var rootLayoutId: Int
-        get() = R.layout.fragment_supply_files
+        get() = R.layout.fragment_window_supply_files
         set(value) {}
 
 
@@ -66,6 +66,7 @@ class SupplyStaffWindow: BaseWindow(supplyStaffTitle, supplyStaffWindowKey){
 
     private lateinit var  tv_planCount:TextView
     private lateinit var  tv_checkCount:TextView
+
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -122,6 +123,15 @@ class SupplyStaffWindow: BaseWindow(supplyStaffTitle, supplyStaffWindowKey){
 
         root  = super.onCreateView(inflater, container, savedInstanceState) as ConstraintLayout
 
+
+
+        root.findViewById<ImageButton>(R.id.imageButton_refresh_window)
+                .apply {
+
+                    setOnClickListener {
+                        loadStaff()
+                    }
+                }
 
         tv_planCount = root.findViewById(R.id.textView_planCount)
         tv_checkCount = root.findViewById(R.id.textView_checkCount)
@@ -316,34 +326,61 @@ class SupplyStaffWindow: BaseWindow(supplyStaffTitle, supplyStaffWindowKey){
     override fun onStart() {
         super.onStart()
 
+        loadStaff()
+    }
 
-        supplyApi.infoList()
-            .enqueue(object : Callback<ResponseEntity<SupplyStaff>> {
-                override fun onResponse(
-                    call: Call<ResponseEntity<SupplyStaff>>,
-                    response: Response<ResponseEntity<SupplyStaff>>
-                ) {
 
-                    val rows = response.body()?.rows
+    fun loadStaff(){
+        /**
+         * 验收物料
+         */
+        supplyApi.infoList(listOf("3"))
+                .enqueue(object : Callback<ResponseEntity<SupplyStaff>> {
+                    override fun onResponse(
+                            call: Call<ResponseEntity<SupplyStaff>>,
+                            response: Response<ResponseEntity<SupplyStaff>>
+                    ) {
 
-                    planStaffViewModel.addSupplyStaffs(rows!!)
-                }
+                        checkStaffViewModel.supplyStaffs?.value?.clear()
 
-                override fun onFailure(call: Call<ResponseEntity<SupplyStaff>>, t: Throwable) {
-                    try {
-                        TODO("Not yet implemented")
-                    }catch (e: kotlin.NotImplementedError){
-                        Log.e("ERROR!",e.message)
+                        val rows = response.body()?.rows
+                        if(rows!=null) {
+                            checkStaffViewModel.addSupplyStaffs(rows)
+                        }
+
+
                     }
 
-                }
-
-            })
+                    override fun onFailure(call: Call<ResponseEntity<SupplyStaff>>, t: Throwable) {
 
 
+                    }
 
+                })
 
+        /**
+         * 计划物料
+         */
+        supplyApi.infoList( listOf("1"))
+                .enqueue(object : Callback<ResponseEntity<SupplyStaff>> {
+                    override fun onResponse(
+                            call: Call<ResponseEntity<SupplyStaff>>,
+                            response: Response<ResponseEntity<SupplyStaff>>
+                    ) {
+
+                        planStaffViewModel.supplyStaffs?.value?.clear()
+
+                        val rows = response.body()?.rows
+                        if(rows!= null) planStaffViewModel.addSupplyStaffs(rows)
+                    }
+
+                    override fun onFailure(call: Call<ResponseEntity<SupplyStaff>>, t: Throwable) {
+
+                    }
+
+                })
     }
+
 
 }
 

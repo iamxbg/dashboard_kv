@@ -7,12 +7,56 @@
     android:orientation="vertical">
 
 
+    <!-- 回退按钮 -->
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/back"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="10dp"
+        />
+
+    <!-- 用户信息栏位 -->
+    <TextView
+        android:id="@+id/textView_login_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请登录"
+        android:letterSpacing="0.5"
+        android:textColor="@color/sys_white"
+        android:textSize="18dp"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/textView_nickname"
+        android:layout_marginRight="10dp"/>
+
+    <!-- 用户名 -->
+    <TextView
+        android:id="@+id/textView_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        app:layout_constraintRight_toLeftOf="@id/btn_config"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center_vertical"
+        android:text="username"
+        android:visibility="gone"/>
+
+
+
+    <!-- 登录/推出按钮 -->
     <ImageButton
         android:id="@+id/btn_config"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginRight="30dp"
-        android:src="@mipmap/gear"
+        android:src="@drawable/login"
         android:adjustViewBounds="true"
         android:contextClickable="true"
         android:scaleType="fitCenter"

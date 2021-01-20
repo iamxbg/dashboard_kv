@@ -44,7 +44,7 @@ class FtpFilesApiTest {
                     }
 
                     override fun onFailure(call: Call<ResponseEntity<FtpFile>>, t: Throwable) {
-                        TODO("Not yet implemented")
+
                     }
 
                 })

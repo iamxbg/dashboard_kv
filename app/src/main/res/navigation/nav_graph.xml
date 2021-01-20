@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_desktopFragment_to_projectDetailFragment"
             app:destination="@id/projectDetailFragment" />
+        <action
+            android:id="@+id/action_desktopFragment_to_unloginFragment"
+            app:destination="@id/unloginFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -29,11 +32,19 @@
         <action
             android:id="@+id/action_loginFragment_to_desktopFragment"
             app:destination="@id/desktopFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/projectDetailFragment"
         android:name="com.example.dashboard_kv.fragment.ProjectDetailFragment"
-        android:label="ProjectDetailFragment" />
+        android:label="ProjectDetailFragment" >
+        <action
+            android:id="@+id/action_projectDetailFragment_to_desktopFragment"
+            app:destination="@id/desktopFragment" />
+        <action
+            android:id="@+id/action_projectDetailFragment_to_unloginFragment"
+            app:destination="@id/unloginFragment" />
+    </fragment>
 
 
 </navigation>

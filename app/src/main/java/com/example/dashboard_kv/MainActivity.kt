@@ -18,26 +18,23 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.findNavController
 import com.example.dashboard_kv.api.WebService
 import com.example.dashboard_kv.api.WebUtil
+import com.example.dashboard_kv.widget.UserViewModel
+import java.util.ArrayList
 
-/**
- * Loads [MainFragment].
- */
+
+
+
 class MainActivity : FragmentActivity() {
 
-
+    @Deprecated("前期设计方案,未使用")
     lateinit var  webService: WebService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        val navHostFragment = findViewById<FragmentContainerView>(R.id.nav_host_fragment)
-//
-//
-//
-//        WebUtil.init(navHostFragment?.findNavController()!!)
-
-
+        //val navHostFragment = findViewById<FragmentContainerView>(R.id.nav_host_fragment)
+        //WebUtil.init(navHostFragment?.findNavController()!!)
         //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         //val inputMethodManager =this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         //inputMethodManager.hideSoftInputFromWindow()
@@ -47,17 +44,12 @@ class MainActivity : FragmentActivity() {
 
     override fun onResumeFragments() {
         super.onResumeFragments()
-
-
     }
-
-
 
     private val connection = object:ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
 
             val binder = service as WebService.WebBinder
-
                 webService = binder.getService();
         }
 
@@ -86,8 +78,5 @@ class MainActivity : FragmentActivity() {
         super.onStop()
         webService.unbindService(connection)
     }
-
-
-
 
 }

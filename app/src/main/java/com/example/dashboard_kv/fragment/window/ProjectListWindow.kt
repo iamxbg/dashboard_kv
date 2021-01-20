@@ -6,9 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.LayoutRes
 import androidx.annotation.NonNull
 import androidx.lifecycle.MutableLiveData
@@ -18,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.dashboard_kv.R
 import com.example.dashboard_kv.api.*
-import com.example.dashboard_kv.widget.FileView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,7 +29,7 @@ const val projectListWindowId:String ="project_info_list"
 class ProjectListWindow: BaseWindow(projectListTitle, projectListWindowId){
 
     override var rootLayoutId: Int
-        get() = R.layout.fragment_project_list
+        get() = R.layout.fragment_window_project_list
         set(value) {}
 
 
@@ -52,9 +49,6 @@ class ProjectListWindow: BaseWindow(projectListTitle, projectListWindowId){
     }
 
 
-    /**
-     * 异步加载Ftp文件列表
-     */
     private fun loadProjects(){
 
 
@@ -64,38 +58,25 @@ class ProjectListWindow: BaseWindow(projectListTitle, projectListWindowId){
                     override fun onResponse(call: Call<ResponseEntity<ProjectInfo>>, response: Response<ResponseEntity<ProjectInfo>>) {
 
                        if(WebUtil.preInteceptor(response) == null){
-//
-//                        val navHosFragment = parentFragmentManager.findFragmentById(R.id.nav_host_fragment)
-//                        navHosFragment?.findNavController()?.navigate(R.id.action_unloginFragment_to_loginFragment)
-//
-                          //parentFragmentManager.primaryNavigationFragment!!.findNavController().navigate(R.id.action_unloginFragment_to_loginFragment)
 
                           parentFragment!!.parentFragmentManager.findFragmentById(R.id.nav_host_fragment)?.findNavController()?.navigate(R.id.action_unloginFragment_to_loginFragment)
 
                            return
                         }else{
 
+                            projectInfoViewModel.projects?.value?.clear()
 
-//
-//
-//                           Log.d("project-API:",response.message())
-//                           val projects = response.body()?.rows as MutableList<ProjectInfo>
-//
-//                           projectInfoViewModel.addProjects(projects)
+                           val projects = response.body()?.rows as MutableList<ProjectInfo>
+                            if(projects!=null){
+                                projectInfoViewModel.addProjects(projects)
+                            }
+
                         }
 
 
                     }
 
                     override fun onFailure(call: Call<ResponseEntity<ProjectInfo>>, t: Throwable) {
-
-                        try{
-                            TODO("Not yet implemented")
-                        }catch(e:kotlin.NotImplementedError ){
-                            Log.e("loadFiles failure!",t.message)
-                        }
-
-
 
                     }
 
@@ -106,6 +87,14 @@ class ProjectListWindow: BaseWindow(projectListTitle, projectListWindowId){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
          root = super.onCreateView(inflater, container, savedInstanceState) as ViewGroup
+
+        root.findViewById<ImageButton>(R.id.imageButton_refresh_window)
+                .apply {
+
+                    setOnClickListener {
+                        loadProjects()
+                    }
+                }
 
         listView_projectInfo =  root.findViewById<ListView>(R.id.listView_projectInfo)
                 .apply {
@@ -130,9 +119,11 @@ class ProjectListWindow: BaseWindow(projectListTitle, projectListWindowId){
             return layoutInflater.inflate(R.layout.widget_project_info,null)
                     .also {
 
+                        //行号
                         it.findViewById<TextView>(R.id.textView_rowIndex)
-                                .text = position.toString()
+                                .text = (position+1).toString()
 
+                        //项目名称
                         it.findViewById<TextView>(R.id.textView_project_name)
                                 .apply {
 
@@ -140,6 +131,22 @@ class ProjectListWindow: BaseWindow(projectListTitle, projectListWindowId){
 
 
 
+                                }
+
+                        var score:Int =0;
+                        if(projectInfo.status==null || projectInfo.status.equals("")){
+                            score =0;
+                        }else{
+                            val statusCode = projectInfo.status?.toInt()?:0
+
+                             score = (statusCode*12.5).toInt()
+                        }
+
+
+                        //进度
+                        it.findViewById<ProgressBar>(R.id.tv_process_score)
+                                .apply {
+                                    progress = score
                                 }
 
                     }

@@ -23,7 +23,18 @@ import java.net.SocketTimeoutException
 
 var current_project_id:Long = 0L;
 
-var TOKEN:String? = "eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjdhMGU2N2FkLWRmNTgtNDlkOC05NTU3LTUwYmEwNzc0MjE5ZCJ9.NefG9Q1qfRWijJDVoy68kMsTfJyxZjZqLVKxYuYV1HTH6_gzW53FKldcPlDBwhUJNp6bVxgQhyWsxfCOawPkXQ"
+var UNCATCH_ERROR_MSG ="验证码加载,未捕捉异常，请联系developer!"
+
+/**
+ * 加密公钥
+ */
+val PUBLIC_KEY:String ="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCU7GKkferYtm3Z2JiiYUVWb52KHoanPD8K/f4jexS0Asi52ONmiKdeT2vyRc7s78wCcvHfx02SbrGUtKDIfRzPqmp6uF7Nx8+24FkLGI8iIJbm3HTsSBR5j3JbIU4FbYg0C7b+8RMEJGGRtGE0X7YLnlknzR+euEP5tjVDinLxHQIDAQAB"
+
+
+/**
+ * 测试时在此处填写
+ */
+var TOKEN:String? = "eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjNlOWM2MmE2LTE1N2UtNDBiZC04YjcxLTdjMWEzZjM5M2Y0OSJ9.RXYmy6tZ3CkVATLAnzoWTRVFCoXO-wWDhTenxmXH6KrO9_bOZeyYD_96YJ5lOF2FjbvUi3G7eLzYXW53CGinmQ"
 
 class WebUtil private constructor() {
 
@@ -52,36 +63,14 @@ class WebUtil private constructor() {
                 val newReq = reqBuilder.build();
 
                 try {
-                    val resp  = chain.proceed(newReq)
+                    return chain.proceed(newReq)
 
-                    if(resp.code == 200){
 
-                        return resp;
-
-                    }
-//                    else {
-//
-//                        when(resp.code){
-//                            401 -> {
-//                                Log.e("token-intercepter","X:XX 认证失败，无法访问系统资源")
-//                                TODO("处理401错误")
-//                            }
-//                            403 -> {
-//
-//                                Log.e("请求被禁用,","URL:"+resp.request.url.toString())
-//
-//                            }
-//                            else ->{
-//                                TODO("根据返回的错误码，返回对应的错误信息!")
-//                            }
-//                        }
-//
-//                        return  resp;
-//
-//                    }
-                    return resp;
                 }catch (e: SocketTimeoutException){
-                    TODO("提示超时信息")
+                    e.printStackTrace()
+
+                    throw e
+
                 }
 
             }
@@ -97,6 +86,7 @@ class WebUtil private constructor() {
         }
 
         val client = OkHttpClient.Builder()
+                .retryOnConnectionFailure(false)
                 .addInterceptor(loginInterceptor)
                 .addNetworkInterceptor(tokenIntercetpr)
                 .build();

@@ -57,7 +57,7 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
      * 资源文件ID
      */
     override var rootLayoutId: Int
-        get() = R.layout.fragment_make_files
+        get() = R.layout.fragment_window_make_files
         set(value) {}
 
 
@@ -101,6 +101,8 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
 
         makeFilesGridView = root.findViewById(R.id.grid_view_task_files);
 
+
+
         /**
          * 返回按钮
          */
@@ -117,7 +119,7 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
          * 刷新按钮
          */
 
-        root.findViewById<ImageButton>(R.id.imageButton_refresh)
+        root.findViewById<ImageButton>(R.id.imageButton_refresh_window)
             .apply {
                 setOnClickListener {
                     loadFiles(currentFolderIdViewModel.stack.peek())
@@ -145,9 +147,10 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
 
             override fun onResponse(call: Call<ResponseEntity<FtpFile>>, response: Response<ResponseEntity<FtpFile>>) {
 
-                val files = response.body()?.rows as MutableList<FtpFile>
+                viewModel.rawFiles?.value?.clear()
 
-                viewModel.setFiles(files)
+                val files = response.body()?.rows as MutableList<FtpFile>
+                if(files!=null)  viewModel.setFiles(files)
 
 
             }
@@ -199,7 +202,7 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
     override fun onStart() {
         super.onStart()
 
-       // loadFiles(null)
+      loadFiles(1)
 
     }
 

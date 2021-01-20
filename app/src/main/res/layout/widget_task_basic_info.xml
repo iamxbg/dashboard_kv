@@ -6,46 +6,55 @@
     android:layout_marginBottom="3dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- row index -->
+    <!-- 项目编号 -->
     <TextView
-        android:id="@+id/tv_row_index"
+        android:id="@+id/tv_project_no"
         android:paddingLeft="10dp"
-        android:layout_width="30dp"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:layout_constraintRight_toLeftOf="@id/tv_task_name"
+        app:layout_constraintRight_toLeftOf="@id/tv_task_no"
         app:layout_constraintLeft_toLeftOf="parent"
         android:textColor="@color/sys_blue"
-        >
+        android:gravity="left"
+        />
 
-    </TextView>
 
-    <!-- task basic info -->
+    <!-- 任务编号 -->
     <TextView
-        android:id="@+id/tv_task_name"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_task_no"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:text="TEXT_WORD"
         android:textColor="@color/sys_blue"
-        app:layout_constraintLeft_toRightOf="@id/tv_row_index"
-        app:layout_constraintRight_toLeftOf="@id/tv_task_detail"
+        android:gravity="left"
+        app:layout_constraintLeft_toRightOf="@id/tv_project_no"
+        app:layout_constraintRight_toLeftOf="@id/tv_createTime"
 
-        >
+        />
 
-    </TextView>
+    <!-- 创建时间 -->
+    <TextView
+        android:id="@+id/tv_createTime"
+        android:textColor="@color/sys_blue"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="left"
+        app:layout_constraintLeft_toRightOf="@id/tv_task_no"
+        app:layout_constraintRight_toLeftOf="@id/tv_task_detail"/>
 
     <!-- detail Link -->
     <TextView
         android:id="@+id/tv_task_detail"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:background="@color/sys_blue"
+        android:letterSpacing="0.3"
         android:text="任务详情"
         android:textColor="@color/sys_white"
-        android:background="@color/sys_blue"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintHorizontal_weight="2"
-        android:letterSpacing="0.3">
+        android:visibility="visible"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintLeft_toRightOf="@id/tv_createTime"
+        app:layout_constraintRight_toRightOf="parent"/>
 
-    </TextView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

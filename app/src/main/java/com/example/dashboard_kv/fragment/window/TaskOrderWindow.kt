@@ -2,11 +2,11 @@ package com.example.dashboard_kv.fragment.window
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.TextView
 import androidx.annotation.LayoutRes
@@ -15,7 +15,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.example.dashboard_kv.R
 import com.example.dashboard_kv.api.*
 import retrofit2.Call
@@ -37,7 +36,7 @@ class TaskOrderWindow: BaseWindow(project_order_title, project_order_windowKey) 
     }
 
     override var rootLayoutId: Int
-        get() = R.layout.fragment_project_order
+        get() = R.layout.fragment_window_project_order
         set(value) {}
 
     /**
@@ -49,6 +48,14 @@ class TaskOrderWindow: BaseWindow(project_order_title, project_order_windowKey) 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
        val root =super.onCreateView(inflater, container, savedInstanceState) as ViewGroup
+
+        //刷新按钮
+        root.findViewById<ImageButton>(R.id.imageButton_refresh_window)
+                .apply {
+                    setOnClickListener {
+                        loadTaskRankings()
+                    }
+                }
 
         listView_taskOrder =     root?.findViewById<ListView>(R.id.listView_taskOrder)
                     .apply {
@@ -78,8 +85,14 @@ class TaskOrderWindow: BaseWindow(project_order_title, project_order_windowKey) 
                         findViewById<TextView>(R.id.tv_rowIndex)
                                 .text = (position+1).toString();
                         //任务名称
-                        findViewById<TextView>(R.id.tv_taskName)
+                        findViewById<TextView>(R.id.tv_project_no)
                                 .text = task.name
+
+                        findViewById<TextView>(R.id.tv_task_no)
+                                .text = task.projectTaskNo
+
+                        findViewById<TextView>(R.id.tv_createTime)
+                                .text = task.createTime
                     }
 
         }
@@ -126,11 +139,12 @@ class TaskOrderWindow: BaseWindow(project_order_title, project_order_windowKey) 
         taskApi.taskRankingList()
                 .enqueue(object:Callback<ResponseEntity<TaskModel>>{
                     override fun onResponse(call: Call<ResponseEntity<TaskModel>>, response: Response<ResponseEntity<TaskModel>>) {
-//
-//                        TODO( "null cannot be cast to non-null type kotlin.collections.MutableList<com.example.dashboard_kv.api.TaskModel")
-//                        val tasks = response.body()?.rows as MutableList<TaskModel>
-//
-//                        taskOrderViewModel.setTasks(tasks)
+
+
+                        val tasks = response.body()?.rows as MutableList<TaskModel>
+
+                        taskOrderViewModel.taskList.value?.clear();
+                        taskOrderViewModel.setTasks(tasks)
 
                     }
 
@@ -140,39 +154,6 @@ class TaskOrderWindow: BaseWindow(project_order_title, project_order_windowKey) 
 
 
                 })
-
-
-//        ProjectListWindow.projectApi.projectList()
-//                .enqueue(object : Callback<ResponseEntity<ProjectInfo>> {
-//
-//                    override fun onResponse(call: Call<ResponseEntity<ProjectInfo>>, response: Response<ResponseEntity<ProjectInfo>>) {
-//
-//                        if(WebUtil.preInteceptor(response) == null){
-//                            parentFragment!!.parentFragmentManager.findFragmentById(R.id.nav_host_fragment)?.findNavController()?.navigate(R.id.action_unloginFragment_to_loginFragment)
-//
-//                            return
-//                        }else{
-//
-//
-//
-//
-//                            Log.d("project-API:",response.message())
-//                            val projects = response.body()?.rows as MutableList<ProjectInfo>
-//
-//                            projectInfoViewModel.addProjects(projects)
-//                        }
-//
-//
-//                    }
-//
-//                    override fun onFailure(call: Call<ResponseEntity<ProjectInfo>>, t: Throwable) {
-//                        Log.e("loadFiles failure!",t.message)
-//                        TODO("Not yet implemented")
-//
-//
-//                    }
-//
-//                })
 
     }
 

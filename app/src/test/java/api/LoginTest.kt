@@ -102,40 +102,6 @@ class LoginTest {
 
 
     @Test
-    fun testEncode(){
-        val code ="gyfa";
-        val uuid ="ba7bf33c34db41c5bf8a624a1424b4f6";
-
-        val username ="admin"
-        val password ="111111"
-
-        val encryptedPasswd = EncryptUtil.getEcryptedPassword(password)
-
-        println("encrypted-passwd:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-    }
-
-
-//    @Test
-//    fun testLogin(){
-//
-//        val code ="eegn";
-//        val uuid ="7cb36f7ce8da40028d3d285d12c326c5";
-//
-//        val username ="admin"
-//        val password ="111111"
-//
-//        val encryptedPasswd = EncryptUtil.getEcryptedPassword(password)
-//
-//        println("encrypted-passwd:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-//        println(encryptedPasswd)
-//
-//       val resp  =  loginApi.login(LoginReq(code,encryptedPasswd,username,uuid)).execute();
-//
-//        TestPrinter.printRespBasicInfo(resp)
-//
-//    }
-
-    @Test
     fun testLoginAndroid(){
         val code ="ew84";
         val uuid ="c949159254e74e4cabc0ce9c00820357";

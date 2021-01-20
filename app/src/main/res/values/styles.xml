@@ -3,7 +3,7 @@
         <!-- 子窗口的标题样式 -->
         <style name="tv_window_title" parent="android:Widget.TextView">
             <item name="android:layout_width">match_parent</item>
-            <item name="android:layout_height">20dp</item>
+            <item name="android:layout_height">match_parent</item>
             <item name="android:background">@color/sys_blue</item>
             <item name="android:textColor">@color/sys_white</item>
             <item name="android:gravity">center_vertical</item>
@@ -22,7 +22,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">8dp</item>
         <item name="android:textColor">@color/sys_white</item>
-        <item name="android:layout_marginHorizontal">5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
     </style>
     <!-- 物料信息的content样式 -->
     <style name="textView_supply_staff_content">
@@ -101,7 +102,20 @@
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:layout_marginRight">5dp</item>
         <item name="android:layout_width">100dp</item>
-        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
+
+    <!-- 刷新窗口按钮 -->
+    <style name="imageButton_refresh_window" parent="Widget.AppCompat.ImageButton">
+        <item name="android:src">@drawable/icon_refresh</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+    </style>
+
+
 
 </resources>

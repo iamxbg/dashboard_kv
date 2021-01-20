@@ -14,14 +14,14 @@ class EncryptTest()  {
     @Test
     fun testEncrypt(){
 
-        EncryptUtil.testPrint()
+
 
     }
 
     @Test
     fun testEncryptPasswd(){
 
-        println(EncryptUtil.getEcryptedPassword("111111"))
+
 
     }
 

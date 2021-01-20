@@ -84,7 +84,7 @@ data class TaskModel(
         val deliveryUserBy:String,  //装配员id
         val deliveryUserName:String,    //配送员名称
         val endTime:String, //结束时间
-        val id:String,
+        val id:Long,
         val instanceId:String,  //流程实例id
         val name:String,    //项目名称
         val params:Any, //请求参数

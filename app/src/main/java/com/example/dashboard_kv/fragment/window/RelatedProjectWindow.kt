@@ -3,14 +3,10 @@ package com.example.dashboard_kv.fragment.window
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.util.MutableDouble
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.LayoutRes
 import androidx.annotation.NonNull
 import androidx.lifecycle.MutableLiveData
@@ -22,6 +18,7 @@ import com.example.dashboard_kv.R
 import com.example.dashboard_kv.api.ProjectInfo
 import com.example.dashboard_kv.api.ResponseEntity
 import com.example.dashboard_kv.api.WebUtil
+import com.example.dashboard_kv.widget.User_View_Model
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,7 +32,7 @@ const val relatedProjectWindowId ="related_project_window"
 class RelatedProjectWindow: BaseWindow(relatedProjectTitle, relatedProjectWindowId){
 
     override var rootLayoutId: Int
-        get() = R.layout.fragment_related_project
+        get() = R.layout.fragment_window_related_project
         set(value) {}
 
     lateinit var viewModel:RelationProjectViewModel
@@ -51,6 +48,15 @@ class RelatedProjectWindow: BaseWindow(relatedProjectTitle, relatedProjectWindow
                         adapter = RelationProjectArrayAdapter(requireContext(),R.layout.list_view_project_info)
 
                     }
+
+
+                //刷新按钮
+                findViewById<ImageButton>(R.id.imageButton_refresh_window)
+                        .apply {
+                            setOnClickListener {
+                                loadProjects();
+                            }
+                        }
             }
 
     }
@@ -92,6 +98,8 @@ class RelatedProjectWindow: BaseWindow(relatedProjectTitle, relatedProjectWindow
             return layoutInflater.inflate(R.layout.widget_project_info,null)
                 .apply {
 
+
+
                     //行号
                     findViewById<TextView>(R.id.textView_rowIndex)
                             .text = (position+1).toString()
@@ -102,29 +110,25 @@ class RelatedProjectWindow: BaseWindow(relatedProjectTitle, relatedProjectWindow
 
                            this.text = projectInfo.name
 
-                           //点击调转到工程详情
-                           setOnClickListener {
 
-                               val navHosFragment = parentFragment!!.parentFragmentManager.findFragmentById(R.id.nav_host_fragment)
-                               navHosFragment?.findNavController()?.navigate(R.id.action_desktopFragment_to_projectDetailFragment)
-                           }
 
                        }
 
-//                    findViewById<ProgressBar>(R.id.progressBar_projectStatus)
-//                        .apply {
-//
-//
-//                        }
+                    var score:Int =0;
+                    if(projectInfo.status==null || projectInfo.status.equals("")){
+                        score =0;
+                    }else{
+                        val statusCode = projectInfo.status?.toInt()?:0
 
-                    var score:Int = 0
-//                            if(projectInfo.status != null && !projectInfo.status.equals(""))
-//
-//                             score = ((projectInfo.status.toDouble()/8)*100).toInt()
-//
-//                            progress = score;
-                    findViewById<TextView>(R.id.tv_process_score)
-                        .text = score.toString()
+                        score = (statusCode*12.5).toInt()
+                    }
+
+
+                    //进度
+                    findViewById<ProgressBar>(R.id.tv_process_score)
+                            .apply {
+                                progress = score
+                            }
                 }
 
         }
@@ -137,45 +141,43 @@ class RelatedProjectWindow: BaseWindow(relatedProjectTitle, relatedProjectWindow
      */
     private fun loadProjects(){
 
+        val user = User_View_Model?.user?.value
 
-        ProjectListWindow.projectApi.projectList()
-            .enqueue(object : Callback<ResponseEntity<ProjectInfo>> {
+        if(user!=null){
 
-                override fun onResponse(call: Call<ResponseEntity<ProjectInfo>>, response: Response<ResponseEntity<ProjectInfo>>) {
 
-                    if(WebUtil.preInteceptor(response) == null){
+
+            ProjectListWindow.projectApi.projectList()
+                    .enqueue(object : Callback<ResponseEntity<ProjectInfo>> {
+
+                        override fun onResponse(call: Call<ResponseEntity<ProjectInfo>>, response: Response<ResponseEntity<ProjectInfo>>) {
+
+                            if(WebUtil.preInteceptor(response) == null){
 //
-//                        val navHosFragment = parentFragmentManager.findFragmentById(R.id.nav_host_fragment)
-//                        navHosFragment?.findNavController()?.navigate(R.id.action_unloginFragment_to_loginFragment)
-//
-                        //parentFragmentManager.primaryNavigationFragment!!.findNavController().navigate(R.id.action_unloginFragment_to_loginFragment)
+                                parentFragment!!.parentFragmentManager.findFragmentById(R.id.nav_host_fragment)?.findNavController()?.navigate(R.id.action_unloginFragment_to_loginFragment)
 
-                        parentFragment!!.parentFragmentManager.findFragmentById(R.id.nav_host_fragment)?.findNavController()?.navigate(R.id.action_unloginFragment_to_loginFragment)
+                                return
+                            }else{
 
-                        return
-                    }else{
+                                viewModel.projects?.value?.clear()
 
-                        val projects = response.body()?.rows as MutableList<ProjectInfo>
+                                val projects = response.body()?.rows as MutableList<ProjectInfo>
 
-                        viewModel.setProjects(projects)
-                    }
+                                if(projectListTitle!=null){
+                                    viewModel.setProjects(projects)
+                                }
+                            }
+                        }
 
+                        override fun onFailure(call: Call<ResponseEntity<ProjectInfo>>, t: Throwable) {
 
-                }
+                        }
 
-                override fun onFailure(call: Call<ResponseEntity<ProjectInfo>>, t: Throwable) {
-
-                    try{
-                        TODO("Not yet implemented")
-                    }catch (e:kotlin.NotImplementedError){
-                        Log.e("loadFiles failure!",t.message)
-                    }
+                    })
+        }
 
 
 
-                }
-
-            })
 
     }
 

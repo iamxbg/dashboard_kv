@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.TextView
 import androidx.annotation.LayoutRes
@@ -25,8 +26,10 @@ const val notification_windowKey : String ="notification"
 
 class NotificationWindow(): BaseWindow(notification_title, notification_windowKey) {
 
+    lateinit var  refreshButton:ImageButton;
+
     override var rootLayoutId: Int
-        get() = R.layout.fragment_notification
+        get() = R.layout.fragment_window_notification
         set(value) {}
 
 
@@ -41,6 +44,8 @@ class NotificationWindow(): BaseWindow(notification_title, notification_windowKe
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+
 
         viewModel =  ViewModelProvider(this).get(NotificationViewModel::class.java)
             .also {
@@ -83,9 +88,8 @@ class NotificationWindow(): BaseWindow(notification_title, notification_windowKe
                         .apply {
                             text = notification.title
 
-                            setOnLongClickListener { v ->
+                            setOnClickListener {
 
-                                TODO("显示通知详情!")
 
                             }
                         }
@@ -96,7 +100,6 @@ class NotificationWindow(): BaseWindow(notification_title, notification_windowKe
                             text = notification.feedbackNumber.toString()
                             setOnClickListener { v ->
 
-                                TODO("弹出框显示反馈")
 
                             }
                         }
@@ -121,6 +124,15 @@ class NotificationWindow(): BaseWindow(notification_title, notification_windowKe
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
          val root:ViewGroup = super.onCreateView(inflater, container, savedInstanceState) as ViewGroup
 
+        /**
+         * 刷新数据
+         */
+        root.findViewById<ImageButton>(R.id.imageButton_refresh_window)
+                .apply {
+                    setOnClickListener {
+                        loadNotificatins();
+                    }
+                }
 
         listView_notification =  root.findViewById<ListView>(R.id.listView_notifications)
             .apply{
@@ -132,28 +144,36 @@ class NotificationWindow(): BaseWindow(notification_title, notification_windowKe
         return root;
     }
 
-
     override fun onStart() {
         super.onStart()
 
+        loadNotificatins();
 
+
+    }
+
+
+    fun loadNotificatins(){
         notificationApi.getNotifications("1")
-            .enqueue(object: Callback<ResponseEntity<Notification>> {
-                override fun onResponse(
-                    call: Call<ResponseEntity<Notification>>,
-                    response: Response<ResponseEntity<Notification>>
-                ) {
+                .enqueue(object: Callback<ResponseEntity<Notification>> {
+                    override fun onResponse(
+                            call: Call<ResponseEntity<Notification>>,
+                            response: Response<ResponseEntity<Notification>>
+                    ) {
 
-//                    if(response.body()?.rows?.size!!>0)
-//                     viewModel.addNotifications(response.body()?.rows!!)
-                }
+                        viewModel.notifications?.value?.clear()
 
-                override fun onFailure(call: Call<ResponseEntity<Notification>>, t: Throwable) {
+                        if(response.body()?.rows?.size!!>0)
+                            viewModel.addNotifications(response.body()?.rows!!)
+                    }
 
-                }
+                    override fun onFailure(call: Call<ResponseEntity<Notification>>, t: Throwable) {
 
-            })
+                        t.printStackTrace()
 
+                    }
+
+                })
     }
 
 }
