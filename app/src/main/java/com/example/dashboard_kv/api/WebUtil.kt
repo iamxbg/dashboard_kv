@@ -58,6 +58,7 @@ class WebUtil private constructor() {
                 val reqBuilder = req.newBuilder().apply {
                     this.addHeader("Authorization", TOKEN?:"")
                     this.addHeader("accept","application/json")
+                    this.addHeader("Keep-Alive","300")
                 }
 
                 val newReq = reqBuilder.build();
