@@ -38,7 +38,7 @@ class SupplyStaffWindow: BaseWindow(supplyStaffTitle, supplyStaffWindowKey){
 
     companion object
     {
-        val supplyApi = WebUtil.getService(SuppliesApi::class.java)
+        var supplyApi = WebUtil.getService(SuppliesApi::class.java)
 
     }
 

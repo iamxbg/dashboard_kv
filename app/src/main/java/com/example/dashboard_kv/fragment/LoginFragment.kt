@@ -67,7 +67,7 @@ class LoginFragment:Fragment() {
 
     companion object {
 
-        val loginApi = WebUtil.getService(LoginApi::class.java)
+        var loginApi = WebUtil.getService(LoginApi::class.java)
 
         fun testLoadCaptcha(base64Str: String): BitmapDrawable {
 

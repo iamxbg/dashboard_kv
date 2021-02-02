@@ -31,7 +31,7 @@ class TaskDetailWindow: BaseWindow(title, windowKey){
         set(value) {}
 
     companion object{
-        val taskApi = WebUtil.getService(TaskApi::class.java)
+        var taskApi = WebUtil.getService(TaskApi::class.java)
 
     }
 
@@ -93,7 +93,7 @@ class TaskDetailWindow: BaseWindow(title, windowKey){
                                 tv_instanceId.text = t!!.instanceId
                                 tv_createTime.text = t!!.createTime
                                 tv_taskType.text = TaskType.getDescByCode(t!!.taskType.toInt())
-                                tv_taskStatus.text = TaskStatus.getDescByCode(t!!.status.toInt())
+                                //tv_taskStatus.text = TaskStatus.getDescByCode(t!!.status.toInt())
                                 tv_delivery.text = t!!.deliveryUserName
                                 tv_assemble.text = t!!.assembleUserName
                                 tv_check.text = t!!.qaUserName

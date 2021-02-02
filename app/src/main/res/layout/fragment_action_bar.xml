@@ -55,17 +55,31 @@
         android:id="@+id/btn_config"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="5dp"
         android:src="@drawable/login"
         android:adjustViewBounds="true"
         android:contextClickable="true"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_config_1"
         app:layout_constraintTop_toTopOf="parent">
-
-
     </ImageButton>
+
+    <!-- 设置按钮 -->
+    <ImageButton
+        android:id="@+id/btn_config_1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src='@drawable/staff_gear'
+        android:adjustViewBounds="true"
+        android:contextClickable="true"
+        android:scaleType="fitCenter"
+
+        android:layout_marginRight="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <TextView
         android:layout_width="match_parent"

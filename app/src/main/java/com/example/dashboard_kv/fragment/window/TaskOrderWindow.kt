@@ -30,8 +30,7 @@ const val project_order_windowKey :String="project_order"
 class TaskOrderWindow: BaseWindow(project_order_title, project_order_windowKey) {
 
     companion object{
-
-        val taskApi = WebUtil.getService(TaskApi::class.java)
+        var taskApi = WebUtil.getService(TaskApi::class.java)
 
     }
 
@@ -141,10 +140,13 @@ class TaskOrderWindow: BaseWindow(project_order_title, project_order_windowKey) 
                     override fun onResponse(call: Call<ResponseEntity<TaskModel>>, response: Response<ResponseEntity<TaskModel>>) {
 
 
-                        val tasks = response.body()?.rows as MutableList<TaskModel>
 
-                        taskOrderViewModel.taskList.value?.clear();
-                        taskOrderViewModel.setTasks(tasks)
+                        val tasks = response.body()?.rows
+                            if(tasks!=null){
+                                taskOrderViewModel.taskList.value?.clear();
+                                taskOrderViewModel.setTasks(tasks as MutableList<TaskModel>)
+                            }
+
 
                     }
 

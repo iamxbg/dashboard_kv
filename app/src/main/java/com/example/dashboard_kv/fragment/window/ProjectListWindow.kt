@@ -44,7 +44,7 @@ class ProjectListWindow: BaseWindow(projectListTitle, projectListWindowId){
 
     companion object {
 
-        val projectApi = WebUtil.getService(ProjectApi::class.java)
+        var projectApi = WebUtil.getService(ProjectApi::class.java)
 
     }
 
@@ -66,9 +66,9 @@ class ProjectListWindow: BaseWindow(projectListTitle, projectListWindowId){
 
                             projectInfoViewModel.projects?.value?.clear()
 
-                           val projects = response.body()?.rows as MutableList<ProjectInfo>
+                           val projects = response.body()?.rows
                             if(projects!=null){
-                                projectInfoViewModel.addProjects(projects)
+                                projectInfoViewModel.addProjects(projects as MutableList<ProjectInfo> )
                             }
 
                         }

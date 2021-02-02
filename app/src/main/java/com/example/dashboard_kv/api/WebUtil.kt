@@ -3,6 +3,8 @@ package com.example.dashboard_kv.api
 import android.util.Log
 import android.widget.Toast
 import androidx.navigation.NavController
+import com.example.dashboard_kv.fragment.LoginFragment
+import com.example.dashboard_kv.fragment.window.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.JsonObject
 import okhttp3.Interceptor
@@ -24,6 +26,8 @@ import java.net.SocketTimeoutException
 var current_project_id:Long = 0L;
 
 var UNCATCH_ERROR_MSG ="验证码加载,未捕捉异常，请联系developer!"
+
+var API_URL:String ="192.168.1.11"
 
 /**
  * 加密公钥
@@ -96,11 +100,30 @@ class WebUtil private constructor() {
          * 访问应用者
          */
         @JvmStatic
-        val retrofit = Retrofit.Builder()
-                .baseUrl("http://192.168.1.11")
+        var retrofit = Retrofit.Builder()
+                .baseUrl("http://"+API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
+
+
+        fun rebuild(){
+            retrofit =Retrofit.Builder()
+                .baseUrl("http://"+API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+
+            CurrentTaskInfoWindow?.taskApi = getService(TaskApi::class.java)
+            MakeFilesWindow?.fileApi = getService(FtpFilesApi::class.java)
+            NotificationWindow?.notificationApi = getService(NotificationApi::class.java)
+            ProjectListWindow?.projectApi = getService(ProjectApi::class.java)
+            SupplyStaffWindow?.supplyApi = getService(SuppliesApi::class.java)
+            TaskDetailWindow?.taskApi = getService(TaskApi::class.java)
+            TaskOrderWindow?.taskApi = getService(TaskApi::class.java)
+
+            LoginFragment?.loginApi = getService(LoginApi::class.java)
+        }
 
 
         fun <T:Any> preInteceptor(response: retrofit2.Response<ResponseEntity<T>>):retrofit2.Response<ResponseEntity<T>>? {

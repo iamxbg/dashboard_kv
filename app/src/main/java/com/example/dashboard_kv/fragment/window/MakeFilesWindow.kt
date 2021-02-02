@@ -47,7 +47,7 @@ class MakeFilesWindow: BaseWindow(makeFileTitle, makeFileWindowId){
 
 
     companion object{
-       val fileApi:FtpFilesApi = WebUtil.getService(FtpFilesApi::class.java)
+       var fileApi:FtpFilesApi = WebUtil.getService(FtpFilesApi::class.java)
 
         val KEY_CURRENT_FOLDER_ID ="CURRENT_FOLDER_ID"
 

@@ -1,27 +1,16 @@
 package com.example.dashboard_kv
 
-import android.app.Activity
-import android.app.TaskStackBuilder
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
-import android.util.AttributeSet
-import android.view.View
-import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentContainerView
-import androidx.navigation.findNavController
+import com.example.dashboard_kv.api.API_URL
 import com.example.dashboard_kv.api.WebService
 import com.example.dashboard_kv.api.WebUtil
-import com.example.dashboard_kv.widget.UserViewModel
-import java.util.ArrayList
-
-
 
 
 class MainActivity : FragmentActivity() {
@@ -71,6 +60,28 @@ class MainActivity : FragmentActivity() {
                val success  = bindService(intent,connection, Context.BIND_AUTO_CREATE)
                 println(success)
             }
+
+
+        //判断是否存在配置的URL
+        val sharedPreferences = this?.getPreferences(Context.MODE_PRIVATE)
+        if(sharedPreferences!=null){
+            val apiBaseUri = sharedPreferences?.getString(resources.getString(R.string.api_base_url),null)
+            if(apiBaseUri!=null){
+                API_URL = apiBaseUri;
+                if(WebUtil.retrofit!=null){
+                    WebUtil.rebuild()
+                }
+            }else{
+
+            }
+
+        }
+//        with(sharedPreferences.edit()){
+//            val apiBaseUrl = getString(R.string.api_base_url)
+//            if(apiBaseUrl == null || apiBaseUrl.equals("")){
+//                Toast.makeText(applicationContext,"NO_API_BASE_URL",Toast.LENGTH_LONG).show()
+//            }
+//        }
 
     }
 

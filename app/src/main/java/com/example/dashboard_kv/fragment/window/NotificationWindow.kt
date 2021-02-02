@@ -34,7 +34,7 @@ class NotificationWindow(): BaseWindow(notification_title, notification_windowKe
 
 
     companion object {
-        val notificationApi = WebUtil.getService(NotificationApi::class.java)
+        var notificationApi = WebUtil.getService(NotificationApi::class.java)
     }
 
 
@@ -44,7 +44,6 @@ class NotificationWindow(): BaseWindow(notification_title, notification_windowKe
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
 
 
         viewModel =  ViewModelProvider(this).get(NotificationViewModel::class.java)
@@ -163,8 +162,11 @@ class NotificationWindow(): BaseWindow(notification_title, notification_windowKe
 
                         viewModel.notifications?.value?.clear()
 
-                        if(response.body()?.rows?.size!!>0)
+                        if(response.body()!=null && response.body()?.rows!=null
+                            && response.body()?.rows?.size!!>0){
                             viewModel.addNotifications(response.body()?.rows!!)
+                        }
+
                     }
 
                     override fun onFailure(call: Call<ResponseEntity<Notification>>, t: Throwable) {

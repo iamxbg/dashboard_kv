@@ -35,7 +35,7 @@ class CurrentTaskInfoWindow: BaseWindow(currentTaskInfoTitle, currentTaskInfoWin
 
 
     companion object {
-        val taskApi = WebUtil.getService(TaskApi::class.java)
+        var taskApi = WebUtil.getService(TaskApi::class.java)
     }
 
     private lateinit var viewModel:TaskModelViewModel;
